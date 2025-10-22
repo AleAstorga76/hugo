@@ -1,0 +1,337 @@
+/* assets/stylesheets/admin/dashboard-sushi.css */
+:root {
+    /* Paleta de colores Sushi Moderna */
+    --sushi-red: #e53e3e;
+    --sushi-red-dark: #c53030;
+    --sushi-red-light: #fc8181;
+    --sushi-white: #ffffff;
+    --sushi-black: #1a202c;
+    --sushi-gray: #2d3748;
+    --sushi-gray-light: #e2e8f0;
+    --sushi-gold: #d69e2e;
+    --sushi-green: #38a169;
+    
+    /* Variables de diseño */
+    --border-radius: 12px;
+    --border-radius-lg: 20px;
+    --box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    --box-shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* ===== RESET Y BASE ===== */
+.sushi-dashboard * {
+    box-sizing: border-box;
+}
+
+.sushi-dashboard {
+    font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background: linear-gradient(135deg, #f7fafc 0%, #edf2f7 100%);
+    min-height: 100vh;
+}
+
+/* ===== HEADER ===== */
+.sushi-dashboard-header {
+    background: linear-gradient(135deg, var(--sushi-red) 0%, var(--sushi-red-dark) 100%);
+    color: var(--sushi-white);
+    padding: 2.5rem 0;
+    margin: -2.5rem -2.5rem 3rem -2.5rem;
+    border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+    position: relative;
+    overflow: hidden;
+}
+
+.sushi-dashboard-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+        radial-gradient(circle at 20% 80%, rgba(255,255,255,0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(255,255,255,0.05) 0%, transparent 50%);
+}
+
+.sushi-dashboard-header::after {
+    content: '🍣';
+    position: absolute;
+    bottom: -20px;
+    right: 30px;
+    font-size: 8rem;
+    opacity: 0.1;
+    transform: rotate(15deg);
+}
+
+/* ===== STAT CARDS ===== */
+.sushi-stat-card {
+    background: var(--sushi-white);
+    border-radius: var(--border-radius);
+    padding: 2rem 1.5rem;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--sushi-gray-light);
+    transition: var(--transition);
+    height: 100%;
+    position: relative;
+    overflow: hidden;
+}
+
+.sushi-stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 5px;
+    height: 100%;
+    background: var(--sushi-red);
+}
+
+.sushi-stat-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--box-shadow-hover);
+}
+
+.sushi-stat-card.orders::before { background: var(--sushi-red); }
+.sushi-stat-card.customers::before { background: var(--sushi-green); }
+.sushi-stat-card.revenue::before { background: var(--sushi-gold); }
+.sushi-stat-card.products::before { background: var(--sushi-gray); }
+
+.sushi-stat-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    opacity: 0.9;
+}
+
+.sushi-stat-number {
+    font-size: 2.8rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--sushi-black), var(--sushi-gray));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sushi-stat-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--sushi-gray);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* ===== ACTION BUTTONS ===== */
+.sushi-action-btn {
+    background: linear-gradient(135deg, var(--sushi-red), var(--sushi-red-dark));
+    color: var(--sushi-white);
+    border: none;
+    padding: 1.2rem 1.5rem;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    display: block;
+    text-align: center;
+    transition: var(--transition);
+    margin-bottom: 1rem;
+    font-weight: 600;
+    position: relative;
+    overflow: hidden;
+}
+
+.sushi-action-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s;
+}
+
+.sushi-action-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(229, 62, 62, 0.3);
+    color: var(--sushi-white);
+    text-decoration: none;
+}
+
+.sushi-action-btn:hover::before {
+    left: 100%;
+}
+
+.sushi-action-btn.primary { background: linear-gradient(135deg, var(--sushi-red), var(--sushi-red-dark)); }
+.sushi-action-btn.secondary { background: linear-gradient(135deg, var(--sushi-gray), var(--sushi-black)); }
+.sushi-action-btn.success { background: linear-gradient(135deg, var(--sushi-green), #2f855a); }
+
+/* ===== ACTIVITY TIMELINE ===== */
+.sushi-activity-timeline {
+    background: var(--sushi-white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--sushi-gray-light);
+}
+
+.sushi-activity-item {
+    padding: 1.2rem 0;
+    border-bottom: 1px solid var(--sushi-gray-light);
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+}
+
+.sushi-activity-item:last-child {
+    border-bottom: none;
+}
+
+.sushi-activity-item::before {
+    content: '';
+    position: absolute;
+    left: 25px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--sushi-gray-light);
+}
+
+.sushi-activity-item:last-child::before {
+    height: 50%;
+}
+
+.sushi-activity-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--sushi-red);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+    font-size: 1.3rem;
+    color: var(--sushi-white);
+    position: relative;
+    z-index: 2;
+    flex-shrink: 0;
+}
+
+.sushi-activity-content {
+    flex: 1;
+}
+
+.sushi-activity-title {
+    font-weight: 600;
+    color: var(--sushi-black);
+    margin-bottom: 0.3rem;
+}
+
+.sushi-activity-time {
+    font-size: 0.85rem;
+    color: var(--sushi-gray);
+}
+
+/* ===== QUICK ACTIONS GRID ===== */
+.sushi-actions-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+/* ===== SYSTEM INFO ===== */
+.sushi-system-info {
+    background: var(--sushi-white);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    box-shadow: var(--box-shadow);
+    border: 1px solid var(--sushi-gray-light);
+}
+
+.sushi-info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+}
+
+.sushi-info-item {
+    text-align: center;
+    padding: 1rem;
+    background: var(--sushi-gray-light);
+    border-radius: var(--border-radius);
+}
+
+.sushi-info-label {
+    font-size: 0.8rem;
+    color: var(--sushi-gray);
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+}
+
+.sushi-info-value {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--sushi-black);
+}
+
+/* ===== RESPONSIVE DESIGN ===== */
+@media (max-width: 768px) {
+    .sushi-dashboard-header {
+        padding: 2rem 0;
+        margin: -2rem -1.5rem 2rem -1.5rem;
+    }
+    
+    .sushi-stat-number {
+        font-size: 2.2rem;
+    }
+    
+    .sushi-actions-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .sushi-info-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes sushiSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.sushi-stat-card {
+    animation: sushiSlideIn 0.6s ease-out;
+}
+
+.sushi-stat-card:nth-child(2) { animation-delay: 0.1s; }
+.sushi-stat-card:nth-child(3) { animation-delay: 0.2s; }
+.sushi-stat-card:nth-child(4) { animation-delay: 0.3s; }
+
+/* ===== UTILITY CLASSES ===== */
+.sushi-text-gradient {
+    background: linear-gradient(135deg, var(--sushi-red), var(--sushi-red-dark));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.sushi-badge {
+    background: var(--sushi-red);
+    color: var(--sushi-white);
+    padding: 0.3rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.sushi-divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--sushi-gray-light), transparent);
+    margin: 2rem 0;
+}

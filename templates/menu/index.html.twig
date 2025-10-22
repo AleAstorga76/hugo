@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú - Rolls y Combos | HUGO Sushi</title>
+    <link rel="stylesheet" href="{{ asset('css/sushi-theme.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<!-- Navigation (usa el mismo navbar de tu homepage) -->
+<nav class="sushi-nav">
+    <div class="nav-container">
+        <a href="{{ path('homepage') }}" class="sushi-logo">
+            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO - The Best Sushi" class="logo-img" style="height: 80px;">
+        </a>
+        <ul class="nav-menu">
+            <li><a href="{{ path('homepage') }}#inicio" class="nav-link">Inicio</a></li>
+            <li><a href="{{ path('menu') }}" class="nav-link">Menú</a></li>
+            <li><a href="{{ path('homepage') }}#nosotros" class="nav-link">Nosotros</a></li>
+            <li><a href="{{ path('homepage') }}#contacto" class="nav-link">Contacto</a></li>
+            <li><a href="{{ path('admin') }}" class="nav-link">Admin</a></li>
+        </ul>
+    </div>
+</nav>
+
+<!-- Sección Menú Completo -->
+<section class="sushi-section menu-section">
+    <div class="container">
+        <div class="section-header">
+            <span class="section-badge">Nuestro Menú</span>
+            <h2 class="section-title">Rolls & Combos</h2>
+            <p class="section-subtitle">
+                Descubre nuestra selección de rolls especiales y combos exclusivos, 
+                preparados con los ingredientes más frescos.
+            </p>
+        </div>
+
+        <!-- Categorías del Menú -->
+        <div class="menu-categories">
+            <button class="menu-category-btn active" data-category="rolls">Rolls Especiales</button>
+            <button class="menu-category-btn" data-category="combos">Combos</button>
+        </div>
+
+        <!-- Rolls Especiales -->
+        <div class="menu-category active" id="rolls">
+            <h3 class="category-title">Rolls Especiales</h3>
+            <div class="menu-grid">
+                {% for roll in rolls %}
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h4 class="menu-item-title">{{ roll.name }}</h4>
+                        <div class="menu-item-price">${{ roll.price }}</div>
+                    </div>
+                    <p class="menu-item-description">
+                        {{ roll.description }}
+                    </p>
+                    <div class="menu-item-footer">
+                        <span class="menu-item-badge">Especialidad</span>
+                        <button class="menu-item-order" onclick="addToCart('{{ roll.name }}', {{ roll.price }})">
+                            Ordenar
+                        </button>
+                    </div>
+                </div>
+                {% else %}
+                <div class="no-items">
+                    <p>Próximamente tendremos nuevos rolls especiales.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <!-- Combos -->
+        <div class="menu-category" id="combos">
+            <h3 class="category-title">Combos</h3>
+            <div class="menu-grid">
+                {% for combo in combos %}
+                <div class="menu-item">
+                    <div class="menu-item-header">
+                        <h4 class="menu-item-title">{{ combo.name }}</h4>
+                        <div class="menu-item-price">${{ combo.price }}</div>
+                    </div>
+                    <p class="menu-item-description">
+                        {{ combo.description }}
+                    </p>
+                    <div class="menu-item-footer">
+                        <span class="menu-item-badge">Combo</span>
+                        <button class="menu-item-order" onclick="addToCart('{{ combo.name }}', {{ combo.price }})">
+                            Ordenar
+                        </button>
+                    </div>
+                </div>
+                {% else %}
+                <div class="no-items">
+                    <p>Próximamente tendremos nuevos combos.</p>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer (usa el mismo de tu homepage) -->
+<footer class="sushi-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <div style="margin-bottom: 1rem; text-align: center;">
+                    <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO - The Best Sushi" style="height: 70px; width: auto;">
+                </div>
+                <p class="footer-description">
+                    Experiencia culinaria japonesa auténtica. 
+                    Frescura, tradición y innovación en cada bocado.
+                </p>
+            </div>
+            
+            <div>
+                <h3 class="footer-heading">Contacto</h3>
+                <ul class="footer-links">
+                    <li><a href="#" class="footer-link">📞 +54 9 2901-300080</a></li>
+                    <li><a href="#" class="footer-link">📧 hola@hugo.com</a></li>
+                    <li><a href="#" class="footer-link">📍 Calle Hipólito Bouchard 879, Usuahia - Tierra del Fuego</a></li>
+                </ul>
+            </div>
+            
+            <div>
+                <h3 class="footer-heading">Horario</h3>
+                <ul class="footer-links">
+                    <li class="footer-link">Mar - Sab: 18:00 - 22:30</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 Hugo Sushi. Todos los derechos reservados.</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    // Navegación entre categorías
+    document.addEventListener('DOMContentLoaded', function() {
+        const categoryButtons = document.querySelectorAll('.menu-category-btn');
+        const categories = document.querySelectorAll('.menu-category');
+
+        categoryButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const category = button.getAttribute('data-category');
+                
+                categoryButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                categories.forEach(cat => {
+                    cat.classList.remove('active');
+                    if (cat.id === category) {
+                        cat.classList.add('active');
+                    }
+                });
+            });
+        });
+    });
+
+    function addToCart(itemName, price) {
+        alert(`¡Excelente elección! Has agregado ${itemName} por $${price} a tu pedido.`);
+        // Aquí puedes integrar con un sistema de carrito real
+    }
+</script>
+</body>
+</html>

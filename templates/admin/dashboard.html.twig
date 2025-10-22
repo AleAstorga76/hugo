@@ -1,0 +1,128 @@
+{# templates/admin/dashboard.html.twig #}
+{% extends '@EasyAdmin/page/content.html.twig' %}
+
+{% block head_stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" href="{{ asset('assets/stylesheets/admin/dashboard-sushi.css') }}">
+{% endblock %}
+
+{% block body_class %}sushi-dashboard{% endblock %}
+
+{% block main %}
+<div class="sushi-dashboard-header">
+    <div class="container-fluid">
+        <div class="row align-items-center">
+            <div class="col">
+                <h1 class="h2 mb-2">🍣 Hugo Sushi Admin</h1>
+                <p class="mb-0 opacity-90">Gestión moderna de tu restaurante japonés</p>
+            </div>
+            <div class="col-auto">
+                <div class="text-end">
+                    <small class="opacity-75">{{ "now"|date("d/m/Y - H:i") }}</small>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row g-4">
+        <!-- Estadísticas Principales -->
+        <div class="col-12 col-lg-8">
+            <div class="row g-3">
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="sushi-stat-card orders">
+                        <div class="sushi-stat-icon">📦</div>
+                        <div class="sushi-stat-number" id="orderCount">-</div>
+                        <div class="sushi-stat-label">Pedidos Hoy</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="sushi-stat-card customers">
+                        <div class="sushi-stat-icon">👥</div>
+                        <div class="sushi-stat-number" id="customerCount">-</div>
+                        <div class="sushi-stat-label">Clientes</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="sushi-stat-card revenue">
+                        <div class="sushi-stat-icon">💰</div>
+                        <div class="sushi-stat-number" id="revenueCount">-</div>
+                        <div class="sushi-stat-label">Ingresos</div>
+                    </div>
+                </div>
+                <div class="col-12 col-sm-6 col-lg-3">
+                    <div class="sushi-stat-card products">
+                        <div class="sushi-stat-icon">🍱</div>
+                        <div class="sushi-stat-number" id="productCount">-</div>
+                        <div class="sushi-stat-label">Productos</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Acciones Rápidas -->
+            <div class="sushi-activity-timeline mt-4">
+                <h5 class="mb-3 sushi-text-gradient">🚀 Acciones Rápidas</h5>
+                <div class="sushi-actions-grid">
+                    <a href="{{ path('admin_user_index') }}" class="sushi-action-btn primary">
+                        <i class="fas fa-user-plus me-2"></i>Nuevo Pedido
+                    </a>
+                    <a href="{{ path('admin_user_index') }}" class="sushi-action-btn secondary">
+                        <i class="fas fa-utensils me-2"></i>Gestionar Menú
+                    </a>
+                    <a href="/" class="sushi-action-btn success">
+                        <i class="fas fa-store me-2"></i>Ver Tienda
+                    </a>
+                    <a href="#" class="sushi-action-btn">
+                        <i class="fas fa-chart-bar me-2"></i>Reportes
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-12 col-lg-4">
+            <!-- Actividad Reciente -->
+            <div class="sushi-activity-timeline">
+                <h5 class="mb-3 sushi-text-gradient">📋 Actividad Reciente</h5>
+                <div class="sushi-activity-item">
+                    <div class="sushi-activity-icon">📦</div>
+                    <div class="sushi-activity-content">
+                        <div class="sushi-activity-title">Nuevo pedido #2845</div>
+                        <div class="sushi-activity-time">Hace 5 minutos</div>
+                    </div>
+                </div>
+                <div class="sushi-activity-item">
+                    <div class="sushi-activity-icon">👤</div>
+                    <div class="sushi-activity-content">
+                        <div class="sushi-activity-title">Cliente registrado</div>
+                        <div class="sushi-activity-time">Hace 1 hora</div>
+                    </div>
+                </div>
+                <div class="sushi-activity-item">
+                    <div class="sushi-activity-icon">🍣</div>
+                    <div class="sushi-activity-content">
+                        <div class="sushi-activity-title">Menú actualizado</div>
+                        <div class="sushi-activity-time">Hace 3 horas</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Información del Sistema -->
+            <div class="sushi-system-info mt-4">
+                <h5 class="mb-3 sushi-text-gradient">⚙️ Sistema</h5>
+                <div class="sushi-info-grid">
+                    <div class="sushi-info-item">
+                        <div class="sushi-info-label">PHP</div>
+                        <div class="sushi-info-value">{{ constant('PHP_VERSION') }}</div>
+                    </div>
+                    <div class="sushi-info-item">
+                        <div class="sushi-info-label">Symfony</div>
+                        <div class="sushi-info-value">{{ constant('Symfony\\Component\\HttpKernel\\Kernel::VERSION') }}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
