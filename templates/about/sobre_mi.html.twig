@@ -1,278 +1,117 @@
-{% extends 'base.html.twig' %}
-
-{% block title %}Sobre Nosotros - Sushi Premium en Ushuaia{% endblock %}
-
-{% block stylesheets %}
-    {{ parent() }}
-    <style>
-    /* ESTILOS ESPECÍFICOS PARA ESTA PÁGINA */
-    .about-hero {
-        background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(220,38,38,0.3) 100%);
-        padding: 120px 0 80px;
-        text-align: center;
-    }
-
-    .about-hero .hero-title {
-        font-size: 3.5rem;
-        margin-bottom: 1.5rem;
-    }
-
-    .story-grid {
-        display: grid;
-        grid-template-columns: 1.2fr 1fr;
-        gap: 4rem;
-        align-items: center;
-    }
-
-    .story-section {
-        margin-bottom: 3rem;
-    }
-
-    .story-icon {
-        font-size: 3rem;
-        margin-bottom: 1rem;
-    }
-
-    .chef-card {
-        background: var(--sushi-white);
-        border-radius: var(--border-radius);
-        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
-        overflow: hidden;
-    }
-
-    .chef-image {
-        height: 300px;
-        background: var(--sushi-gray-light);
-        background-size: cover;
-        background-position: center;
-    }
-
-    .chef-info {
-        padding: 2rem;
-        text-align: center;
-    }
-
-    .chef-stats {
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 1rem;
-    }
-
-    .gallery-grid {
-        display: grid;
-        grid-template-columns: 2fr 1fr 1fr;
-        gap: 1.5rem;
-        margin-top: 3rem;
-    }
-
-    .gallery-item {
-        position: relative;
-        border-radius: var(--border-radius);
-        overflow: hidden;
-        height: 300px;
-    }
-
-    .gallery-item.featured {
-        grid-row: span 2;
-        height: 630px;
-    }
-
-    .gallery-image {
-        width: 100%;
-        height: 100%;
-        background: var(--sushi-gray-light);
-        background-size: cover;
-        background-position: center;
-    }
-
-    @media (max-width: 768px) {
-        .story-grid, .gallery-grid {
-            grid-template-columns: 1fr;
-        }
-        .gallery-item.featured {
-            height: 300px;
-        }
-    }
-    </style>
-{% endblock %}
-
-{% block body %}
-<!-- Navigation -->
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sushi Moderno - Experiencia Japonesa Auténtica</title>
+    <link rel="stylesheet" href="{{ asset('css/sushi-theme.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+        <!-- En tu homepage actual, cambia el navbar a: -->
 <nav class="sushi-nav">
     <div class="nav-container">
         <a href="{{ path('homepage') }}" class="sushi-logo">
-            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO - The Best Sushi" class="logo-img">
+            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO - The Best Sushi" class="logo-img" style="height: 80px;">
         </a>
         <ul class="nav-menu">
-            <li><a href="{{ path('homepage') }}#inicio" class="nav-link">Inicio</a></li>
+            <li><a href="#inicio" class="nav-link">Inicio</a></li>
             <li><a href="{{ path('menu') }}" class="nav-link">Menú</a></li>
-            <li><a href="{{ path('app_sobre_mi') }}" class="nav-link active">Nosotros</a></li>
-            <li><a href="{{ path('homepage') }}#contacto" class="nav-link">Contacto</a></li>
+            <li><a href="{{ path('app_sobre_mi') }}" class="nav-link">Sobre mí</a></li>
+            <li><a href="#contacto" class="nav-link">Contacto</a></li>
             <li><a href="{{ path('admin') }}" class="nav-link">Admin</a></li>
         </ul>
     </div>
 </nav>
+{% block title %}Sobre mí - Sushi Chef en Ushuaia{% endblock %}
 
-<section class="sushi-section section-dark about-hero">
-    <div class="container">
-        <div class="hero-content animate-fade-in-up">
-            <div class="section-header">
-                <span class="sushi-badge badge-primary">🍣 Nuestra Historia</span>
-                <h1 class="hero-title">Pasión por el <span style="color: var(--sushi-red);">Sushi Auténtico</span></h1>
-                <p class="hero-subtitle">Desde Buenos Aires hasta el fin del mundo, llevando el arte del sushi a cada rincón de Ushuaia</p>
-            </div>
-        </div>
-    </div>
-</section>
+{% block body %}
+<section class="sushi-section section-dark about-section">
+    <div class="container animate-fade-in-up">
 
-<section class="sushi-section about-story">
-    <div class="container">
-        <div class="story-grid">
-            <div class="story-content">
-                <div class="story-section">
-                    <div class="story-icon">🎌</div>
-                    <h3 class="story-title">Tradición Japonesa</h3>
-                    <p class="story-text">
-                        Nuestro chef se formó en las técnicas milenarias del sushi auténtico, 
-                        combinando la precisión japonesa con los ingredientes más frescos de la Patagonia.
-                    </p>
-                </div>
-
-                <div class="story-section">
-                    <div class="story-icon">🧊</div>
-                    <h3 class="story-title">Frescura Garantizada</h3>
-                    <p class="story-text">
-                        En el fin del mundo, la frescura es nuestra prioridad. Trabajamos con pescados 
-                        de primera calidad y productos locales seleccionados minuciosamente.
-                    </p>
-                </div>
-
-                <div class="story-section">
-                    <div class="story-icon">⭐</div>
-                    <h3 class="story-title">5 Años de Experiencia</h3>
-                    <p class="story-text">
-                        Más de medio década perfeccionando cada roll, cada corte, cada presentación. 
-                        La experiencia se nota en cada bocado.
-                    </p>
-                </div>
-            </div>
-
-            <div class="story-visual">
-                <div class="chef-card">
-                    <div class="chef-image" style="background-color: var(--sushi-gray-light);"></div>
-                    <div class="chef-info">
-                        <h4 class="chef-name">Chef Hugo</h4>
-                        <p class="chef-title">Sushiman Profesional</p>
-                        <div class="chef-stats">
-                            <div class="stat">
-                                <span class="stat-number">5+</span>
-                                <span class="stat-label">Años</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">5000+</span>
-                                <span class="stat-label">Clientes</span>
-                            </div>
-                            <div class="stat">
-                                <span class="stat-number">100%</span>
-                                <span class="stat-label">Calidad</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="sushi-section section-dark about-gallery-section">
-    <div class="container">
         <div class="section-header">
-            <span class="sushi-badge badge-primary">📸 Nuestro Trabajo</span>
-            <h2 class="section-title">Arte en Cada Pieza</h2>
-            <p class="section-subtitle">Descubre la belleza y perfección detrás de cada creación</p>
+            <span class="sushi-badge badge-primary">Sobre mí</span>
+            <h2 class="section-title">La historia detrás del sushi</h2>
+            <p class="section-subtitle">Un viaje desde Buenos Aires hasta el fin del mundo, con el sushi como destino.</p>
         </div>
 
-        <div class="gallery-grid">
-            <div class="gallery-item featured">
-                <div class="gallery-image" style="background-color: var(--sushi-gray-light);"></div>
-                <div class="gallery-overlay">
-                    <span class="gallery-badge">Especialidad</span>
-                    <h4 class="gallery-title">Sashimi Premium</h4>
-                </div>
-            </div>
-            
-            <div class="gallery-item">
-                <div class="gallery-image" style="background-color: var(--sushi-gray-light);"></div>
-                <div class="gallery-overlay">
-                    <span class="gallery-badge">Creativo</span>
-                    <h4 class="gallery-title">Rolls Artesanales</h4>
-                </div>
-            </div>
-            
-            <div class="gallery-item">
-                <div class="gallery-image" style="background-color: var(--sushi-gray-light);"></div>
-                <div class="gallery-overlay">
-                    <span class="gallery-badge">Tradicional</span>
-                    <h4 class="gallery-title">Nigiri Perfecto</h4>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<section class="sushi-section about-cta">
-    <div class="container">
-        <div class="cta-content">
-            <h2 class="cta-title">¿Listo para una experiencia única?</h2>
-            <p class="cta-text">Vení a probar el mejor sushi de Ushuaia, donde cada pieza cuenta una historia de pasión y dedicación.</p>
-            <div class="cta-buttons">
-                <a href="{{ path('menu') }}" class="sushi-btn sushi-btn-primary">
-                    <i class="fas fa-utensils"></i>
-                    Ver Menú Completo
-                </a>
-                <a href="{{ path('homepage') }}#contacto" class="sushi-btn sushi-btn-outline">
-                    <i class="fas fa-phone"></i>
-                    Reservar Mesa
-                </a>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Footer -->
-<footer class="sushi-footer">
-    <div class="container">
-        <div class="footer-grid">
-            <div>
-                <div style="margin-bottom: 1rem; text-align: center;">
-                    <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO - The Best Sushi" style="height: 70px; width: auto;">
-                </div>
-                <p class="footer-description">
-                    Experiencia culinaria japonesa auténtica. 
-                    Frescura, tradición y innovación en cada bocado.
+        <div class="about-content">
+            <div class="about-text">
+                <p>
+                    Soy Nicolás Martinez Astorga, y hace años decidí dejar atrás la ciudad de La PLata donde nací, en la provincia de Buenos Aires y explorar mi propio rumbo.
+                    La gastronomía y el Suhi eran parte de mi vida desde mucho antes, había tenido la oportunidad de trabajar (y perfeccionar su técnica) en reconocidos restaurantes de la ciudad.
+                    Al llegar a Usuahia, el frío del sur y la calidez de su gente me inspiraron a crear mi propio espacio culinario. 
+                </p>
+                <p>
+                    Hoy, cinco años después, vivo plenamente de mi sueño como <strong>Chef y Sushiman</strong>, agradecido por la comunidad
+                    de clientes fieles y amigos que me acompañan en cada paso. Cada roll, cada nigiri, cada plato... lleva un pedacito de esta historia.
+                    ¿Porque Hugo? Por mi abuelo, como homeaje a su alegre presencia en mi vida.
                 </p>
             </div>
-            
-            <div>
-                <h3 class="footer-heading">Contacto</h3>
-                <ul class="footer-links">
-                    <li><a href="#" class="footer-link">📞 +54 9 2901-300080</a></li>
-                    <li><a href="#" class="footer-link">📧 hola@hugo.com</a></li>
-                    <li><a href="#" class="footer-link">📍 Calle Hipólito Bouchard 879, Usuahia - Tierra del Fuego</a></li>
-                </ul>
+
+            <div class="about-gallery">
+                <div class="about-photo" style="background-image: url('/images/products/Nico.png');"></div>
+                <div class="about-photo" style="background-image: url('/images/products/Eventos2.png');"></div>
+                <div class="about-photo" style="background-image: url('/images/products/Eventos3.png');"></div>
             </div>
-            
-            <div>
-                <h3 class="footer-heading">Horario</h3>
-                <ul class="footer-links">
-                    <li class="footer-link">Mar - Sab: 18:00 - 22:30</li>
-                </ul>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <p>&copy; 2025 Hugo Sushi. Todos los derechos reservados.</p>
         </div>
     </div>
-</footer>
+</section>
+
+<style>
+.about-section {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    color: var(--sushi-white);
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 3rem;
+    align-items: center;
+}
+
+.about-text p {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+    line-height: 1.8;
+    color: var(--sushi-gray-light);
+}
+
+.about-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.about-photo {
+    width: 100%;
+    height: 180px;
+    background-size: cover;
+    background-position: center;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.about-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 15px 30px rgba(220, 38, 38, 0.4);
+}
+
+@media (max-width: 768px) {
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+
+    .about-gallery {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    }
+
+    .about-photo {
+        height: 140px;
+    }
+}
+</style>
 {% endblock %}
