@@ -271,56 +271,108 @@ body {
     flex-wrap: wrap;
 }
 
-/* ===== NAVEGACIÓN ===== */
+/* === Navbar Moderna === */
 .sushi-nav {
-    position: absolute;
+    position: fixed;
     top: 0;
-    left: 0;
     width: 100%;
     z-index: 1000;
-    padding: 1rem 0;
-    background: rgba(0, 0, 0, 0.9); /* Negro puro */
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(8px);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sushi-nav.scrolled {
+    background: rgba(0, 0, 0, 0.9);
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
 }
 
 .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.8rem 2rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-.nav-menu {
+.nav-left, .nav-right {
     display: flex;
     list-style: none;
-    gap: 2.5rem;
+    gap: 2rem;
+    margin: 0;
+    padding: 0;
 }
 
 .nav-link {
-    color: var(--sushi-white);
+    color: #fff;
     text-decoration: none;
     font-weight: 500;
-    transition: color 0.3s ease;
+    font-size: 1rem;
+    transition: color 0.3s;
     position: relative;
 }
 
 .nav-link::after {
     content: '';
     position: absolute;
-    bottom: -5px;
-    left: 0;
+    bottom: -4px;
+    left: 50%;
     width: 0;
     height: 2px;
-    background: var(--sushi-red);
-    transition: width 0.3s ease;
+    background: #dc2626;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
 }
 
 .nav-link:hover {
-    color: var(--sushi-red-light);
+    color: #dc2626;
 }
 
 .nav-link:hover::after {
-    width: 100%;
+    width: 60%;
+}
+
+.sushi-logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+}
+
+.logo-img {
+    height: 85px;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+.ingresar-btn {
+    background: #dc2626;
+    padding: 0.4rem 1rem;
+    border-radius: 30px;
+    font-weight: 600;
+}
+
+.ingresar-btn:hover {
+    background: #f87171;
+    color: white;
+}
+
+/* Adaptación móvil */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 0.8rem;
+    }
+    .nav-left, .nav-right {
+        gap: 1rem;
+    }
+    .logo-img {
+        height: 70px;
+    }
 }
 
 /* ===== SECCIONES ===== */
@@ -1050,3 +1102,186 @@ body {
     font-weight: 700;
     color: var(--sushi-red);
 }
+
+/* BOTONES */
+.sushi-btn {
+  background: transparent;
+  border: 1px solid var(--sushi-red);
+  color: var(--sushi-red);
+  padding: 0.5rem 1.2rem;
+  border-radius: 25px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.sushi-btn:hover {
+  background: var(--sushi-red);
+  color: white;
+}
+
+.sushi-btn.small {
+  font-size: 0.9rem;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: relative;
+}
+
+.dropdown-toggle i {
+  margin-left: 6px;
+  font-size: 0.8rem;
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: 110%;
+  right: 0;
+  background: rgba(0, 0, 0, 0.95);
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 10px;
+  padding: 0.5rem 0;
+  display: none;
+  min-width: 180px;
+  text-align: right;
+}
+
+.dropdown-menu a {
+  display: block;
+  color: var(--sushi-white);
+  padding: 0.6rem 1rem;
+  text-decoration: none;
+  transition: background 0.3s;
+}
+
+.dropdown-menu a:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--sushi-red-light);
+}
+
+/* Mostrar menú al pasar el mouse */
+.dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+  }
+
+  .sushi-logo img {
+    height: 70px;
+  }
+}
+/* === NAVBAR === */
+.sushi-nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 999;
+    backdrop-filter: blur(12px);
+    background: rgba(255, 255, 255, 0.15);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sushi-nav.scrolled {
+    background: rgba(0, 0, 0, 0.75);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+}
+
+.nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0.6rem 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+/* Logo centrado en el eje */
+.sushi-logo {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+}
+
+.logo-img {
+    height: 70px;
+    width: auto;
+    transition: transform 0.3s ease;
+}
+
+.logo-img:hover {
+    transform: scale(1.05);
+}
+
+/* Secciones a los costados */
+.nav-left,
+.nav-right {
+    display: flex;
+    gap: 2rem;
+    align-items: center;
+}
+
+/* En pantallas pequeñas, se alinean horizontalmente */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .nav-left, .nav-right {
+        gap: 1rem;
+    }
+}
+
+/* Estilos de links */
+.nav-link {
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    font-size: 1rem;
+    position: relative;
+    transition: color 0.3s ease;
+}
+
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -3px;
+    left: 50%;
+    transform: translateX(-50%) scaleX(0);
+    width: 70%;
+    height: 2px;
+    background-color: #e74c3c;
+    transition: transform 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #e74c3c;
+}
+
+.nav-link:hover::after {
+    transform: translateX(-50%) scaleX(1);
+}
+
+/* Botón "Ingresar" destacado */
+.ingresar-btn {
+    padding: 0.5rem 1.2rem;
+    border: 1px solid #e74c3c;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.ingresar-btn:hover {
+    background-color: #e74c3c;
+    color: #fff;
+    border-color: #e74c3c;
+}
+

@@ -12,18 +12,23 @@
         <!-- En tu homepage actual, cambia el navbar a: -->
 <nav class="sushi-nav">
     <div class="nav-container">
-        <a href="{{ path('homepage') }}" class="sushi-logo">
-            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO - The Best Sushi" class="logo-img" style="height: 80px;">
-        </a>
-        <ul class="nav-menu">
-            <li><a href="#inicio" class="nav-link">Inicio</a></li>
+        <ul class="nav-left">
             <li><a href="{{ path('menu') }}" class="nav-link">Menú</a></li>
             <li><a href="{{ path('app_sobre_mi') }}" class="nav-link">Sobre mí</a></li>
+        </ul>
+
+        <a href="{{ path('homepage') }}" class="sushi-logo">
+            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO Sushi" class="logo-img">
+        </a>
+
+        <ul class="nav-right">
             <li><a href="#contacto" class="nav-link">Contacto</a></li>
-            <li><a href="{{ path('admin') }}" class="nav-link">Admin</a></li>
+            <li><a href="{{ path('app_sign_in') }}" class="nav-link ingresar-btn">Ingresar</a></li>
         </ul>
     </div>
 </nav>
+
+
 
    <!-- Hero Carousel Mejorado -->
 <section class="sushi-hero" id="inicio">
@@ -216,6 +221,17 @@
                         target.scrollIntoView({
                             behavior: 'smooth',
                             block: 'start'
+                            <script>
+         // Navbar sólida al hacer scroll
+            document.addEventListener('scroll', () => {
+               const nav = document.querySelector('.sushi-nav');
+                if (window.scrollY > 50) {
+                nav.classList.add('scrolled');
+                } else {
+                nav.classList.remove('scrolled');
+    }
+});
+
                         });
                     }
                 });

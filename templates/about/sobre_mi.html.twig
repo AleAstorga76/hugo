@@ -28,36 +28,143 @@
 
 {% block body %}
 <section class="sushi-section section-dark about-section">
-    <div class="container animate-fade-in-up">
+    <div class="container">
 
-        <div class="section-header">
+        <div class="section-header animate-fade-up">
             <span class="sushi-badge badge-primary">Sobre mí</span>
             <h2 class="section-title">La historia detrás del sushi</h2>
             <p class="section-subtitle">Un viaje desde Buenos Aires hasta el fin del mundo, con el sushi como destino.</p>
         </div>
 
         <div class="about-content">
-            <div class="about-text">
+            <div class="about-text animate-slide-up">
                 <p>
-                    Soy Nicolás Martinez Astorga, y hace años decidí dejar atrás la ciudad de La PLata donde nací, en la provincia de Buenos Aires y explorar mi propio rumbo.
-                    La gastronomía y el Suhi eran parte de mi vida desde mucho antes, había tenido la oportunidad de trabajar (y perfeccionar su técnica) en reconocidos restaurantes de la ciudad.
-                    Al llegar a Usuahia, el frío del sur y la calidez de su gente me inspiraron a crear mi propio espacio culinario. 
+                    Soy Nicolás Martinez Astorga, y hace años decidí dejar atrás la ciudad de La Plata donde nací,
+                    en la provincia de Buenos Aires, y explorar mi propio rumbo.
+                    La gastronomía y el sushi eran parte de mi vida desde mucho antes; tuve la oportunidad de
+                    perfeccionar mi técnica en reconocidos restaurantes de la ciudad.
+                    Al llegar a Ushuaia, el frío del sur y la calidez de su gente me inspiraron a crear mi propio espacio culinario.
                 </p>
                 <p>
-                    Hoy, cinco años después, vivo plenamente de mi sueño como <strong>Chef y Sushiman</strong>, agradecido por la comunidad
-                    de clientes fieles y amigos que me acompañan en cada paso. Cada roll, cada nigiri, cada plato... lleva un pedacito de esta historia.
-                    ¿Porque Hugo? Por mi abuelo, como homeaje a su alegre presencia en mi vida.
+                    Hoy, cinco años después, vivo plenamente de mi sueño como <strong>Chef y Sushiman</strong>,
+                    agradecido por la comunidad de clientes fieles y amigos que me acompañan en cada paso.
+                    Cada roll, cada nigiri, cada plato... lleva un pedacito de esta historia.
+                    ¿Por qué Hugo? Por mi abuelo, como homenaje a su alegre presencia en mi vida.
                 </p>
             </div>
 
             <div class="about-gallery">
-                <div class="about-photo" style="background-image: url('/images/products/Nico.png');"></div>
-                <div class="about-photo" style="background-image: url('/images/products/Eventos2.png');"></div>
-                <div class="about-photo" style="background-image: url('/images/products/Eventos3.png');"></div>
+                <div class="about-photo animate-zoom" style="background-image: url('/images/products/Nico.png');"></div>
+                <div class="about-photo animate-zoom" style="background-image: url('/images/products/Eventos2.png');"></div>
+                <div class="about-photo animate-zoom" style="background-image: url('/images/products/Eventos3.png');"></div>
             </div>
         </div>
     </div>
 </section>
+
+<style>
+.about-section {
+    background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+    color: var(--sushi-white);
+    overflow: hidden;
+    position: relative;
+    padding: 6rem 0;
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.about-text p {
+    font-size: 1.15rem;
+    margin-bottom: 1.8rem;
+    line-height: 1.9;
+    color: var(--sushi-gray-light);
+}
+
+.about-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.2rem;
+    perspective: 1000px;
+}
+
+.about-photo {
+    width: 100%;
+    height: 250px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 1rem;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+    transform: scale(1);
+    transition: transform 1.2s ease, box-shadow 0.5s ease;
+}
+
+.about-photo:hover {
+    transform: scale(1.08) rotateY(5deg);
+    box-shadow: 0 20px 40px rgba(220, 38, 38, 0.4);
+}
+
+/* Animaciones suaves al hacer scroll */
+.animate-fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.animate-slide-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.9s ease, transform 0.9s ease;
+}
+
+.animate-zoom {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 1s ease, transform 1s ease;
+}
+
+/* Al entrar en pantalla */
+.animate-visible {
+    opacity: 1 !important;
+    transform: none !important;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+    .about-content {
+        grid-template-columns: 1fr;
+    }
+
+    .about-gallery {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .about-photo {
+        height: 180px;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const animatedElements = document.querySelectorAll('.animate-fade-up, .animate-slide-up, .animate-zoom');
+
+    const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-visible');
+            }
+        });
+    }, { threshold: 0.2 });
+
+    animatedElements.forEach(el => observer.observe(el));
+});
+</script>
+
 
 <style>
 .about-section {
