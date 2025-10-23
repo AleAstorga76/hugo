@@ -473,3 +473,264 @@ body {
     font-size: 0.9rem;
     margin-top: 0.5rem;
 }
+/* ===== SOBRE NOSOTROS ===== */
+.about-hero {
+    background: linear-gradient(135deg, rgba(0,0,0,0.9) 0%, rgba(220,38,38,0.3) 100%), 
+                url('/images/about/hero-bg.jpg') center/cover;
+    padding: 120px 0 80px;
+    text-align: center;
+}
+
+.about-hero .hero-title {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.text-red {
+    color: var(--sushi-red);
+}
+
+.about-story {
+    padding: 80px 0;
+    background: var(--sushi-white);
+}
+
+.story-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.story-section {
+    margin-bottom: 3rem;
+}
+
+.story-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+}
+
+.story-title {
+    font-family: var(--font-heading);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--sushi-black);
+}
+
+.story-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--sushi-gray);
+}
+
+/* Chef Card */
+.chef-card {
+    background: var(--sushi-white);
+    border-radius: var(--border-radius);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease;
+}
+
+.chef-card:hover {
+    transform: translateY(-10px);
+}
+
+.chef-image {
+    height: 300px;
+    background-size: cover;
+    background-position: center;
+    background-color: var(--sushi-gray-light); /* Fallback */
+}
+
+.chef-info {
+    padding: 2rem;
+    text-align: center;
+}
+
+.chef-name {
+    font-family: var(--font-heading);
+    font-size: 1.8rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: var(--sushi-black);
+}
+
+.chef-title {
+    color: var(--sushi-red);
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+}
+
+.chef-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-number {
+    display: block;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--sushi-red);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--sushi-gray);
+}
+
+/* Gallery Section para About */
+.about-gallery-section {
+    padding: 80px 0;
+}
+
+.about-gallery-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1.5rem;
+    margin-top: 3rem;
+}
+
+.about-gallery-item {
+    position: relative;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    height: 300px;
+    transition: transform 0.3s ease;
+}
+
+.about-gallery-item.featured {
+    grid-row: span 2;
+    height: 630px;
+}
+
+.about-gallery-item:hover {
+    transform: scale(1.02);
+}
+
+.about-gallery-image {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s ease;
+    background-color: var(--sushi-gray-light); /* Fallback */
+}
+
+.about-gallery-item:hover .about-gallery-image {
+    transform: scale(1.1);
+}
+
+.about-gallery-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0,0,0,0.9));
+    padding: 2rem;
+    color: var(--sushi-white);
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.about-gallery-item:hover .about-gallery-overlay {
+    transform: translateY(0);
+}
+
+.about-gallery-badge {
+    background: var(--sushi-red);
+    color: var(--sushi-white);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.about-gallery-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+}
+
+/* CTA Section */
+.about-cta {
+    padding: 80px 0;
+    background: linear-gradient(135deg, var(--sushi-gray-light) 0%, var(--sushi-white) 100%);
+    text-align: center;
+}
+
+.cta-content {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.cta-title {
+    font-family: var(--font-heading);
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--sushi-black);
+}
+
+.cta-text {
+    font-size: 1.2rem;
+    color: var(--sushi-gray);
+    margin-bottom: 2.5rem;
+    line-height: 1.6;
+}
+
+.cta-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* Responsive para About */
+@media (max-width: 768px) {
+    .about-hero .hero-title {
+        font-size: 2.5rem;
+    }
+    
+    .story-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .about-gallery-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-gallery-item.featured {
+        grid-row: auto;
+        height: 300px;
+    }
+    
+    .cta-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+    
+    .cta-buttons .sushi-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+@media (max-width: 480px) {
+    .chef-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .about-hero {
+        padding: 100px 0 60px;
+    }
+}

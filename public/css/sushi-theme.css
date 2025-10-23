@@ -968,3 +968,85 @@ body {
         font-size: 0.9rem;
     }
 }
+/* Selectores de cantidad */
+.quantity-selector {
+    margin-bottom: 1.5rem;
+}
+
+.quantity-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    color: var(--sushi-gray);
+    font-size: 0.9rem;
+}
+
+.quantity-options {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.quantity-option {
+    background: var(--sushi-gray-light);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--sushi-gray);
+}
+
+.quantity-option:hover {
+    background: var(--sushi-red-light);
+    color: var(--sushi-red-dark);
+}
+
+.quantity-option.active {
+    background: var(--sushi-red);
+    color: var(--sushi-white);
+    border-color: var(--sushi-red);
+}
+
+/* Selectores de cantidad con precios */
+.quantity-option {
+    background: var(--sushi-gray-light);
+    border: 2px solid transparent;
+    border-radius: 8px;
+    padding: 0.8rem 1rem;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: var(--sushi-gray);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+    min-width: 80px;
+}
+
+.quantity-option:hover {
+    background: var(--sushi-red-light);
+    color: var(--sushi-red-dark);
+}
+
+.quantity-option.active {
+    background: var(--sushi-red);
+    color: var(--sushi-white);
+    border-color: var(--sushi-red);
+}
+
+.option-price {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: inherit;
+}
+
+.menu-item-price {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--sushi-red);
+}

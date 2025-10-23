@@ -45,62 +45,89 @@
 
         <!-- Rolls Especiales -->
         <div class="menu-category active" id="rolls">
-            <h3 class="category-title">Rolls Especiales</h3>
-            <div class="menu-grid">
-                {% for roll in rolls %}
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <h4 class="menu-item-title">{{ roll.name }}</h4>
-                        <div class="menu-item-price">${{ roll.price }}</div>
+                <h3 class="category-title">Rolls Especiales</h3>
+                <div class="menu-grid">
+                    {% for roll in rolls %}
+                    {# {{ dump(roll) }} <- Puedes borrar esto cuando funcione #}
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">{{ roll.name }}</h4>
+                            <div class="menu-item-price"> Desde ${{ roll.prices|first.price }}</div>
+                        </div>
+                        <p class="menu-item-description">
+                            {{ roll.description }}
+                        </p>
+                        
+                        <div class="quantity-selector">
+                            <label class="quantity-label">Selecciona la cantidad:</label>
+                            <div class="quantity-options">
+                                {% for price_option in roll.prices %}
+                                    <button type="button" class="quantity-option" 
+                                            data-product="{{ roll.name }}" 
+                                            data-quantity="{{ price_option.quantity }}"
+                                            data-price="{{ price_option.price }}">
+                                        {% if price_option.quantity == 4 %}x4 piezas{% else %}x8 piezas{% endif %}
+                                        <span class="option-price">${{ price_option.price }}</span>
+                                    </button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item-footer">
+                            <span class="menu-item-badge">Especialidad</span>
+                            <button class="menu-item-order" 
+                                    data-product="{{ roll.name }}" 
+                                    data-quantity="{{ roll.prices|first.quantity }}" 
+                                    data-price="{{ roll.prices|first.price }}">
+                                Ordenar
+                            </button>
+                        </div>
                     </div>
-                    <p class="menu-item-description">
-                        {{ roll.description }}
-                    </p>
-                    <div class="menu-item-footer">
-                        <span class="menu-item-badge">Especialidad</span>
-                        <button class="menu-item-order" onclick="addToCart('{{ roll.name }}', {{ roll.price }})">
-                            Ordenar
-                        </button>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% else %}
-                <div class="no-items">
-                    <p>Próximamente tendremos nuevos rolls especiales.</p>
-                </div>
-                {% endfor %}
             </div>
-        </div>
 
-        <!-- Combos -->
-        <div class="menu-category" id="combos">
-            <h3 class="category-title">Combos</h3>
-            <div class="menu-grid">
-                {% for combo in combos %}
-                <div class="menu-item">
-                    <div class="menu-item-header">
-                        <h4 class="menu-item-title">{{ combo.name }}</h4>
-                        <div class="menu-item-price">${{ combo.price }}</div>
+            <div class="menu-category" id="combos">
+                <h3 class="category-title">Combos</h3>
+                <div class="menu-grid">
+                    {% for combo in combos %}
+                    <div class="menu-item">
+                        <div class="menu-item-header">
+                            <h4 class="menu-item-title">{{ combo.name }}</h4>
+                            <div class="menu-item-price">Desde ${{ combo.prices|first.price }}</div>
+                        </div>
+                        <p class="menu-item-description">
+                            {{ combo.description }}
+                        </p>
+                        
+                        <div class="quantity-selector">
+                            <label class="quantity-label">Selecciona la cantidad:</label>
+                            <div class="quantity-options">
+                                {% for price_option in combo.prices %}
+                                    <button type="button" class="quantity-option" 
+                                            data-product="{{ combo.name }}" 
+                                            data-quantity="{{ price_option.quantity }}"
+                                            data-price="{{ price_option.price }}">
+                                        {{ price_option.quantity }} piezas
+                                        <span class="option-price">${{ price_option.price }}</span>
+                                    </button>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                        <div class="menu-item-footer">
+                            <span class="menu-item-badge">Combo</span>
+                            <button class="menu-item-order" 
+                                    data-product="{{ combo.name }}" 
+                                    data-quantity="{{ combo.prices|first.quantity }}" 
+                                    data-price="{{ combo.prices|first.price }}">
+                                Ordenar
+                            </button>
+                        </div>
                     </div>
-                    <p class="menu-item-description">
-                        {{ combo.description }}
-                    </p>
-                    <div class="menu-item-footer">
-                        <span class="menu-item-badge">Combo</span>
-                        <button class="menu-item-order" onclick="addToCart('{{ combo.name }}', {{ combo.price }})">
-                            Ordenar
-                        </button>
-                    </div>
+                    {% endfor %}
                 </div>
-                {% else %}
-                <div class="no-items">
-                    <p>Próximamente tendremos nuevos combos.</p>
-                </div>
-                {% endfor %}
             </div>
-        </div>
-    </div>
-</section>
-
 <!-- Footer (usa el mismo de tu homepage) -->
 <footer class="sushi-footer">
     <div class="container">
@@ -161,10 +188,40 @@
         });
     });
 
-    function addToCart(itemName, price) {
-        alert(`¡Excelente elección! Has agregado ${itemName} por $${price} a tu pedido.`);
-        // Aquí puedes integrar con un sistema de carrito real
-    }
+    // En tu template del menú, actualiza el JavaScript
+document.addEventListener('DOMContentLoaded', function() {
+    // Selectores de cantidad
+    const quantityOptions = document.querySelectorAll('.quantity-option');
+    
+    quantityOptions.forEach(option => {
+        option.addEventListener('click', function() {
+            const productCard = this.closest('.menu-item');
+            const orderButton = productCard.querySelector('.menu-item-order');
+            const priceDisplay = productCard.querySelector('.menu-item-price');
+            
+            // Remover active de todas las opciones del mismo producto
+            const allOptions = productCard.querySelectorAll('.quantity-option');
+            allOptions.forEach(opt => opt.classList.remove('active'));
+            
+            // Activar la opción seleccionada
+            this.classList.add('active');
+            
+            // Actualizar precio si es necesario
+            const newPrice = this.getAttribute('data-price');
+            const quantity = this.getAttribute('data-quantity');
+            
+            priceDisplay.textContent = `$${newPrice}`;
+            
+            // Actualizar el botón de ordenar
+            orderButton.setAttribute('onclick', `addToCart('${this.getAttribute('data-product')}', ${newPrice}, ${quantity})`);
+        });
+    });
+});
+
+function addToCart(itemName, price, quantity) {
+    alert(`¡Excelente elección! Has agregado ${itemName} (${quantity} piezas) por $${price} a tu pedido.`);
+    // Aquí puedes integrar con un sistema de carrito real
+}
 </script>
 </body>
 </html>

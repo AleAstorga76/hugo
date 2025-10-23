@@ -1,55 +1,8 @@
+# config/packages/easy_admin.yaml
 easy_admin:
+  site_name: 'HUGO Sushi Admin'
   design:
     brand_color: '#dc2626'
-    menu_icon: 'cutlery'
-    
-  entities:
-    Product:
-      class: App\Entity\Product
-      label: 'Productos'
-      icon: 'shopping-basket'
-      
-      list:
-        title: 'Gestión de Productos'
-        fields:
-          - { property: 'id', label: 'ID', type: 'integer' }
-          - { property: 'name', label: 'Nombre' }
-          - { property: 'category', label: 'Categoría' }
-          - { property: 'price', label: 'Precio' }
-          - { property: 'description', label: 'Descripción' }
-        
-      form:
-        fields:
-          - { property: 'name', label: 'Nombre del Producto', help: 'Ej: Mexican Roll, Combo Familiar' }
-          - { property: 'description', label: 'Descripción', type: 'textarea', help: 'Describe los ingredientes y características' }
-          - { property: 'price', label: 'Precio', type: 'number', help: 'Precio en dólares' }
-          - { 
-              property: 'category', 
-              label: 'Categoría', 
-              type: 'choice', 
-              type_options: { 
-                choices: { 
-                  '🎯 Roll': 'roll', 
-                  '📦 Combo': 'combo' 
-                } 
-              },
-              help: 'Selecciona si es un Roll individual o un Combo' 
-            }
-          - { 
-              property: 'image', 
-              label: 'Imagen', 
-              type: 'text', 
-              help: 'URL de la imagen (ej: /images/products/mexican-roll.png)' 
-            }
-      
-      show:
-        fields:
-          - 'id'
-          - 'name'
-          - 'category'
-          - 'price'
-          - 'description'
-          - 'image'
-      
-      search:
-        fields: ['id', 'name', 'description']
+  
+  crud:
+    # Esto fuerza a detectar CRUD controllers

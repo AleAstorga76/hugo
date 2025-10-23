@@ -23,4 +23,6 @@ class ProductRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    // Si necesitas algún método específico, agrégalo aquí
 }

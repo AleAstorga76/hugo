@@ -1,0 +1,54 @@
+<?php
+// src/Controller/Admin/ProductCrudController.php
+
+namespace App\Controller\Admin;
+
+use App\Entity\Product;
+use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
+use EasyCorp\Bundle\EasyAdminBundle\Field\IdField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
+
+class ProductCrudController extends AbstractCrudController
+{
+    public static function getEntityFqcn(): string
+    {
+        return Product::class;
+    }
+
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Producto')
+            ->setEntityLabelInPlural('Productos')
+            ->setPageTitle('index', 'Gestión de Productos')
+            ->setPageTitle('new', 'Crear Nuevo Producto')
+            ->setPageTitle('edit', 'Editar Producto');
+    }
+
+    public function configureFields(string $pageName): iterable
+    {
+        return [
+            IdField::new('id')->onlyOnIndex(),
+            TextField::new('name', 'Nombre')
+                ->setHelp('Nombre del producto (ej: Mexican Roll, Combo Familiar)'),
+            TextareaField::new('description', 'Descripción')
+                ->setHelp('Describe los ingredientes y características del producto'),
+            NumberField::new('price', 'Precio')
+                ->setNumDecimals(2)
+                ->setHelp('Precio en dólares'),
+            ChoiceField::new('category', 'Categoría')
+                ->setChoices([
+                    '🎯 Roll' => 'roll',
+                    '📦 Combo' => 'combo',
+                ])
+                ->setHelp('Selecciona la categoría del producto'),
+            TextField::new('image', 'Imagen')
+                ->setHelp('URL de la imagen (ej: /images/products/mexican-roll.png)')
+                ->setRequired(false),
+        ];
+    }
+}
