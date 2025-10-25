@@ -1,35 +1,8 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sushi Moderno - Experiencia Japonesa Auténtica</title>
-    <link rel="stylesheet" href="{{ asset('css/sushi-theme.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-        <!-- En tu homepage actual, cambia el navbar a: -->
-<nav class="sushi-nav">
-    <div class="nav-container">
-        <ul class="nav-left">
-            <li><a href="{{ path('menu') }}" class="nav-link">Menú</a></li>
-            <li><a href="{{ path('app_sobre_mi') }}" class="nav-link">Sobre mí</a></li>
-        </ul>
+{% extends 'base.html.twig' %}
 
-        <a href="{{ path('homepage') }}" class="sushi-logo">
-            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO Sushi" class="logo-img">
-        </a>
+{% block title %}Inicio - Sushi Moderno{% endblock %}
 
-        <ul class="nav-right">
-            <li><a href="#contacto" class="nav-link">Contacto</a></li>
-            <li><a href="{{ path('app_sign_in') }}" class="nav-link ingresar-btn">Ingresar</a></li>
-        </ul>
-    </div>
-</nav>
-
-
-
+{% block body %}
    <!-- Hero Carousel Mejorado -->
 <section class="sushi-hero" id="inicio">
     <div class="sushi-carousel">
@@ -156,46 +129,7 @@
         </div>
     </section>
 
-    <!-- Footer -->
-    <footer class="sushi-footer" id="contacto">
-        <div class="container">
-            <div class="footer-grid">
-                <div>
-                    <!-- LOGO EN FOOTER - CON ESTILOS INLINE -->
-                    <div style="margin-bottom: 1rem; text-align: center;">
-                        <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO - The Best Sushi" 
-                             style="height: 70px; width: auto;">
-                    </div>
-                    <p class="footer-description">
-                        Experiencia culinaria japonesa auténtica. 
-                        Frescura, tradición y innovación en cada bocado.
-                    </p>
-                </div>
-                
-                <div>
-                    <h3 class="footer-heading">Contacto</h3>
-                    <ul class="footer-links">
-                        <li><a href="#" class="footer-link">📞 +54 9 2901-300080</a></li>
-                        <li><a href="#" class="footer-link">📧 hola@hugo.com</a></li>
-                        <li><a href="#" class="footer-link">📍 Calle Hipólito Bouchard 879, Usuahia - Tierra del Fuego</a></li>
-                    </ul>
-                </div>
-                
-                <div>
-                    <h3 class="footer-heading">Horario</h3>
-                    <ul class="footer-links">
-                        <li class="footer-link">Mar - Sab: 18:00 - 22:30</li>
-                    </ul>
-                </div>
-            </div>
-            
-            <div class="footer-bottom">
-                <p>&copy; 2025 Hugo Sushi. Todos los derechos reservados.</p>
-            </div>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
+      <!-- JavaScript -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const slides = document.querySelectorAll('.carousel-slide');
@@ -238,5 +172,4 @@
             });
         });
     </script>
-</body>
-</html>
+{% endblock %}

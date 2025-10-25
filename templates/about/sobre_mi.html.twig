@@ -1,35 +1,9 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sushi Moderno - Experiencia Japonesa Auténtica</title>
-    <link rel="stylesheet" href="{{ asset('css/sushi-theme.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-</head>
-<body>
-        <!-- En tu homepage actual, cambia el navbar a: -->
-<nav class="sushi-nav">
-    <div class="nav-container">
-        <ul class="nav-left">
-            <li><a href="{{ path('menu') }}" class="nav-link">Menú</a></li>
-            <li><a href="{{ path('app_sobre_mi') }}" class="nav-link">Sobre mí</a></li>
-        </ul>
+{% extends 'base.html.twig' %}
 
-        <a href="{{ path('homepage') }}" class="sushi-logo">
-            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO Sushi" class="logo-img">
-        </a>
-
-        <ul class="nav-right">
-            <li><a href="#contacto" class="nav-link">Contacto</a></li>
-            <li><a href="{{ path('app_sign_in') }}" class="nav-link ingresar-btn">Ingresar</a></li>
-        </ul>
-    </div>
-</nav>
-{% block title %}Sobre mí - Sushi Chef en Ushuaia{% endblock %}
+{% block title %}Inicio - Sushi Moderno{% endblock %}
 
 {% block body %}
+
 <section class="sushi-section section-dark about-section">
     <div class="container">
 
@@ -42,7 +16,7 @@
         <div class="about-content">
             <div class="about-text animate-slide-up">
                 <p>
-                    Soy Nicolás Martinez Astorga, y hace años decidí dejar atrás la ciudad de La Plata donde nací,
+                    Soy Nicolás Martinez Astorga, y hace algunos años decidí dejar atrás la ciudad de La Plata donde nací,
                     en la provincia de Buenos Aires, y explorar mi propio rumbo.
                     La gastronomía y el sushi eran parte de mi vida desde mucho antes; tuve la oportunidad de
                     perfeccionar mi técnica en reconocidos restaurantes de la ciudad.
@@ -54,6 +28,13 @@
                     Cada roll, cada nigiri, cada plato... lleva un pedacito de esta historia.
                     ¿Por qué Hugo? Por mi abuelo, como homenaje a su alegre presencia en mi vida.
                 </p>
+                 <!-- Firma mejorada -->
+                <div class="firma">
+                    — Victoria Osler
+                </div>
+            </div>
+        </div>
+    </div>
             </div>
 
             <div class="about-gallery">
@@ -187,6 +168,15 @@ document.addEventListener('DOMContentLoaded', () => {
     margin-bottom: 1.5rem;
     line-height: 1.8;
     color: var(--sushi-gray-light);
+}
+.firma {
+    font-family: 'Brittany Signature', cursive;
+    font-size: 2rem;
+    color: #c48f6a;
+    text-align: right;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #f3e7d3;
 }
 
 .about-gallery {

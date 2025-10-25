@@ -1,0 +1,48 @@
+/* Fondo del modal */
+.modal {
+    display: none; /* invisible por defecto */
+    position: fixed; /* flota sobre todo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.6); /* semitransparente */
+    z-index: 9999; /* siempre sobre la navbar */
+}
+
+/* Contenido del modal */
+.modal-content {
+    background: #fff;
+    max-width: 400px;
+    margin: 10% auto; /* lo centra vertical y horizontal */
+    padding: 2rem;
+    border-radius: 10px;
+    position: relative;
+}
+
+/* Botón de cierre */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Inputs y botón */
+.sushi-form .form-group {
+    margin-bottom: 1rem;
+}
+
+.sushi-form .form-input {
+    width: 100%;
+    padding: 0.5rem;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.sushi-btn-primary {
+    width: 100%;
+    padding: 0.7rem;
+    margin-top: 1rem;
+}

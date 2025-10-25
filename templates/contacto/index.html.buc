@@ -1,3 +1,33 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sushi Moderno - Experiencia Japonesa Auténtica</title>
+    <link rel="stylesheet" href="{{ asset('css/sushi-theme.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+        <!-- En tu homepage actual, cambia el navbar a: -->
+<nav class="sushi-nav">
+    <div class="nav-container">
+        <ul class="nav-left">
+            <li><a href="{{ path('menu') }}" class="nav-link">Menú</a></li>
+            <li><a href="{{ path('app_sobre_mi') }}" class="nav-link">Sobre mí</a></li>
+        </ul>
+
+        <a href="{{ path('homepage') }}" class="sushi-logo">
+            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO Sushi" class="logo-img">
+        </a>
+
+        <ul class="nav-right">
+          
+            <li><a href="{{ path('app_sign_in') }}" class="nav-link ingresar-btn">Ingresar</a></li>
+        </ul>
+    </div>
+</nav>
+
 {% block title %}Contacto {% endblock %}
 
 {% block body %}
