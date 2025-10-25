@@ -28,7 +28,13 @@ class Product
 
     // SOLO campos individuales de precios - ELIMINA cualquier campo 'price' o 'prices'
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
+    private ?string $price1 = null;
+
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private ?string $price4 = null;
+    
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
+    private ?string $price6 = null;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private ?string $price8 = null;
@@ -54,6 +60,10 @@ class Product
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private ?string $price50 = null;
 
+    // Columna stock booleana
+    #[ORM\Column(type: 'boolean', options: ['default' => true])]
+    private ?bool $stock = true;
+
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $image = null;
 
@@ -73,9 +83,15 @@ class Product
     public function setCategory(string $category): self { $this->category = $category; return $this; }
 
     // Getters y Setters para precios individuales
+    public function getPrice1(): ?string { return $this->price1; }
+    public function setPrice1(?string $price1): self { $this->price1 = $price1; return $this; }
+    
     public function getPrice4(): ?string { return $this->price4; }
     public function setPrice4(?string $price4): self { $this->price4 = $price4; return $this; }
     
+    public function getPrice6(): ?string { return $this->price6; }
+    public function setPrice6(?string $price6): self { $this->price6 = $price6; return $this; }
+
     public function getPrice8(): ?string { return $this->price8; }
     public function setPrice8(?string $price8): self { $this->price8 = $price8; return $this; }
     
@@ -100,6 +116,16 @@ class Product
     public function getPrice50(): ?string { return $this->price50; }
     public function setPrice50(?string $price50): self { $this->price50 = $price50; return $this; }
 
+    // Getters y Setters para stock
+    public function getStock(): ?bool { return $this->stock; }
+    public function setStock(bool $stock): self { $this->stock = $stock; return $this; }
+    
+    // Método helper para stock como texto
+    public function getStockText(): string
+    {
+        return $this->stock ? 'Sí' : 'No';
+    }
+
     public function getImage(): ?string { return $this->image; }
     public function setImage(?string $image): self { $this->image = $image; return $this; }
     
@@ -122,7 +148,7 @@ class Product
     public function getAvailablePrices(): array
     {
         $prices = [];
-        $quantities = [4, 8, 16, 20, 32, 36, 40, 48, 50];
+        $quantities = [1, 4, 6, 8, 16, 20, 32, 36, 40, 48, 50];
         
         foreach ($quantities as $quantity) {
             $method = 'getPrice' . $quantity;

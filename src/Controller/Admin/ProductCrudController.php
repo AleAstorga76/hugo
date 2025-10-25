@@ -11,6 +11,7 @@ use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ImageField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\BooleanField;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 use EasyCorp\Bundle\EasyAdminBundle\Field\FormField;
 
@@ -39,10 +40,18 @@ class ProductCrudController extends AbstractCrudController
                 ->setChoices([
                     'Roll' => 'roll',
                     'Combo' => 'combo',
+                    'Especialidades'=> 'especialidades'
                 ]),
             
+            // Campo stock agregado
+            BooleanField::new('stock', 'En Stock')
+                ->renderAsSwitch(true) // Esto lo muestra como toggle switch
+                ->setCustomOption(BooleanField::OPTION_RENDER_AS_SWITCH, true),
+            
             // SOLO campos que existen en tu Entity
+            NumberField::new('price1', 'Precio x1')->setNumDecimals(2),
             NumberField::new('price4', 'Precio x4')->setNumDecimals(2),
+            NumberField::new('price6', 'Precio x6')->setNumDecimals(2),
             NumberField::new('price8', 'Precio x8')->setNumDecimals(2),
             NumberField::new('price16', 'Precio 16p')->setNumDecimals(2),
             NumberField::new('price20', 'Precio 20p')->setNumDecimals(2),

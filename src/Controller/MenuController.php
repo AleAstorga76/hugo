@@ -3,22 +3,30 @@
 
 namespace App\Controller;
 
-use App\Repository\ProductRepository;
+use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class MenuController extends AbstractController
 {
-    #[Route('/menu', name: 'menu')]
-    public function index(ProductRepository $productRepository): Response
+    #[Route('/menu', name: 'app_menu')]
+    public function index(EntityManagerInterface $entityManager): Response
     {
-        $rolls = $productRepository->findByCategory('roll');
-        $combos = $productRepository->findByCategory('combo');
+        $rolls = $entityManager->getRepository(Product::class)
+            ->findBy(['category' => 'roll']);
+        
+        $combos = $entityManager->getRepository(Product::class)
+            ->findBy(['category' => 'combo']);
+        
+        $especialidades = $entityManager->getRepository(Product::class)
+            ->findBy(['category' => 'especialidades']);
 
         return $this->render('menu/index.html.twig', [
             'rolls' => $rolls,
             'combos' => $combos,
+            'especialidades' => $especialidades,
         ]);
     }
 }

@@ -326,3 +326,21 @@ body {
   .logo-img { height: 60px; }
   .footer-logo-img { height: 50px; }
 }
+/* Agregar al inicio de tu <style> o en sushi-theme.css */
+@font-face {
+    font-family: 'Brittany Signature';
+    src: url('{{ asset("fonts/BrittanySignature.ttf") }}') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Luego aplicar a la firma */
+.firma {
+    font-family: 'Brittany Signature', cursive;
+    font-size: 2rem;
+    color: #c48f6a;
+    text-align: right;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #f3e7d3;
+}
