@@ -24,27 +24,31 @@
             </a>
             <ul class="nav-right">
                 <li>
-                    <!-- Icono del carrito AQUÍ -->
-                    <div style="position: relative; display: inline-block; margin-right: 1rem;">
-                        <button onclick="showCart()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 0.5rem;">
-                            🛒
-                            <span id="cart-count" style="
-                                position: absolute;
-                                top: -5px;
-                                right: -5px;
-                                background: #ff4444;
-                                color: white;
-                                border-radius: 50%;
-                                width: 18px;
-                                height: 18px;
-                                font-size: 11px;
-                                display: flex;
-                                align-items: center;
-                                justify-content: center;
-                            ">0</span>
-                        </button>
-                    </div>
-                </li>
+              <!-- Icono del carrito AQUÍ -->
+{% block cart_button %}
+    {% if show_cart is defined and show_cart %}
+        <div style="position: relative; display: inline-block; margin-right: 1rem;">
+            <button onclick="showCart()" style="background: none; border: none; color: white; font-size: 1.5rem; cursor: pointer; padding: 0.5rem;">
+                🛒
+                <span id="cart-count" style="
+                    position: absolute;
+                    top: -5px;
+                    right: -5px;
+                    background: #ff4444;
+                    color: white;
+                    border-radius: 50%;
+                    width: 18px;
+                    height: 18px;
+                    font-size: 11px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                ">0</span>
+            </button>
+        </div>
+    {% endif %}
+{% endblock %}
+</li>
                 <li><a href="{{ path('app_contacto') }}" class="nav-link">Contacto</a></li>
                 <li><a href="{{ path('app_sign_in') }}" class="nav-link ingresar-btn">Ingresar</a></li>
             </ul>

@@ -1493,3 +1493,193 @@ body.login-page {
         height: 200px; /* Ajuste para móviles */
     }
 }
+./* ESTILOS PARA QUANTITY OPTIONS */
+.quantity-option {
+    transition: all 0.3s ease !important;
+    cursor: pointer !important;
+}
+
+.quantity-option:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid var(--sushi-red) !important;
+    transform: translateY(-2px) !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.3) !important;
+}
+
+/* Reset de los estilos inline */
+button.quantity-option[style] {
+    padding: 0.5rem 0.8rem !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+    border-radius: 0.5rem !important;
+    background: rgba(255,255,255,0.05) !important;
+    color: var(--sushi-white) !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+}
+/* Agregar al inicio de tu <style> o en sushi-theme.css */
+@font-face {
+    font-family: 'Brittany Signature';
+    src: url('{{ asset("fonts/BrittanySignature.ttf") }}') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/* Luego aplicar a la firma */
+.firma {
+    font-family: 'Brittany Signature', cursive;
+    font-size: 2rem;
+    color: #c48f6a;
+    text-align: right;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px dashed #f3e7d3;
+}
+/* CLICK - Efecto de selección MÁS VISIBLE */
+.quantity-option.active {
+    background: rgba(255, 0, 0, 0.3) !important;
+    border: 2px solid var(--sushi-red) !important;
+    color: white !important;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4) !important;
+}
+/* MEJORAR ESTILO DEL CARTEL DE CONFIRMACIÓN */
+.cart-confirmation {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    z-index: 10000;
+    animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    font-family: inherit;
+    min-width: 250px;
+    text-align: center;
+}
+
+.cart-confirmation small {
+    opacity: 0.9;
+    font-weight: 400;
+    font-size: 0.85rem;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+}
+/* MEJORAR FEEDBACK VISUAL PARA SEGUNDO CLICK */
+.quantity-option.in-cart.active {
+    background: #ff3333 !important;
+    border: 2px solid #ff0000 !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6) !important;
+    animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1.05); }
+}
+
+/* Efecto especial cuando se agrega más unidades */
+.quantity-option.in-cart.adding-more::after {
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: scale(1); }
+    40% { transform: scale(1.3); }
+    60% { transform: scale(1.1); }
+}
+/* MODAL DE AGRADECIMIENTO */
+.thank-you-modal {
+    display: none; /* OCULTO POR DEFECTO */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 10000;
+}
+
+.thank-you-modal.show {
+    display: block; /* VISIBLE CUANDO TIENE LA CLASE */
+    animation: fadeIn 0.5s ease;
+}
+
+.thank-you-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    max-width: 500px;
+    width: 90%;
+    color: white;
+}
+
+.thank-you-logo {
+    max-width: 150px;
+    margin: 0 auto 1.5rem;
+    display: block;
+}
+
+.thank-you-logo img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+.thank-you-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--sushi-white);
+    font-weight: 600;
+}
+
+.thank-you-message {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: var(--sushi-gray-light);
+    line-height: 1.5;
+}
+
+.thank-you-close {
+    background: var(--sushi-red);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.thank-you-close:hover {
+    background: #ff5555;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}

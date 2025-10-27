@@ -1,8 +1,221 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Nuestro Menú | HUGO Sushi{% endblock %}
-
+{% set show_cart = true %}
 {% block body %}
+<style>
+/* ESTILOS MEJORADOS PARA BOTONES DE CANTIDAD */
+.quantity-option {
+    padding: 0.5rem 0.8rem !important;
+    border: 1px solid rgba(255,255,255,0.3) !important;
+    border-radius: 0.5rem !important;
+    background: rgba(255,255,255,0.05) !important;
+    color: var(--sushi-white) !important;
+    cursor: pointer !important;
+    transition: all 0.3s ease !important;
+    transform: translateY(0) !important;
+    box-shadow: none !important;
+    position: relative !important;
+    font-family: inherit !important;
+    font-size: 0.9rem !important;
+}
+
+/* HOVER - Efecto más visible */
+.quantity-option:hover {
+    background: rgba(255, 255, 255, 0.15) !important;
+    border: 1px solid var(--sushi-red) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3) !important;
+}
+
+/* CLICK - Efecto de selección */
+.quantity-option.active {
+    background: rgba(255, 0, 0, 0.3) !important;
+    border: 2px solid var(--sushi-red) !important;
+    color: white !important;
+    transform: translateY(-1px) !important;
+    box-shadow: 0 4px 15px rgba(255, 0, 0, 0.4) !important;
+}
+
+/* EN CARRITO - Estado permanente */
+.quantity-option.in-cart {
+    background: var(--sushi-red) !important;
+    border: 1px solid var(--sushi-red) !important;
+    color: white !important;
+    transform: none !important;
+    box-shadow: none !important;
+}
+
+/* MEJORAR FEEDBACK VISUAL PARA SEGUNDO CLICK */
+.quantity-option.in-cart.active {
+    background: #ff3333 !important;
+    border: 2px solid #ff0000 !important;
+    transform: scale(1.05) !important;
+    box-shadow: 0 0 20px rgba(255, 0, 0, 0.6) !important;
+    animation: pulse 0.3s ease;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.08); }
+    100% { transform: scale(1.05); }
+}
+
+/* CHECKMARK MEJORADO CON CONTADOR */
+.quantity-option.in-cart::after {
+    content: var(--cart-count, "✓");
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    background: #25D366;
+    color: white;
+    border-radius: 50%;
+    width: 22px;
+    height: 22px;
+    font-size: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    border: 2px solid #1a1a1a;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Efecto especial cuando se agrega más unidades */
+.quantity-option.in-cart.adding-more::after {
+    animation: bounce 0.5s ease;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% { transform: scale(1); }
+    40% { transform: scale(1.3); }
+    60% { transform: scale(1.1); }
+}
+
+/* Hover para items en carrito */
+.quantity-option.in-cart:hover {
+    background: #ff5555 !important;
+    border: 1px solid #ff5555 !important;
+    transform: scale(1.02) !important;
+    box-shadow: 0 4px 12px rgba(255, 0, 0, 0.4) !important;
+}
+
+/* MEJORAR ESTILO DEL CARTEL DE CONFIRMACIÓN */
+.cart-confirmation {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    color: white;
+    padding: 1rem 1.5rem;
+    border-radius: 0.8rem;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    z-index: 10000;
+    animation: slideIn 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-weight: 600;
+    border: 1px solid rgba(255,255,255,0.2);
+    backdrop-filter: blur(10px);
+    font-family: inherit;
+    min-width: 250px;
+    text-align: center;
+}
+
+.cart-confirmation small {
+    opacity: 0.9;
+    font-weight: 400;
+    font-size: 0.85rem;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%) translateY(-20px);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+ /* MODAL DE AGRADECIMIENTO */
+.thank-you-modal {
+    display: none; /* OCULTO POR DEFECTO */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.9);
+    z-index: 10000;
+}
+
+.thank-you-modal.show {
+    display: block; /* VISIBLE CUANDO TIENE LA CLASE */
+    animation: fadeIn 0.5s ease;
+}
+
+.thank-you-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+    padding: 3rem;
+    border-radius: 1.5rem;
+    text-align: center;
+    border: 1px solid rgba(255,255,255,0.1);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    max-width: 500px;
+    width: 90%;
+    color: white;
+}
+
+.thank-you-logo {
+    max-width: 150px;
+    margin: 0 auto 1.5rem;
+    display: block;
+}
+
+.thank-you-logo img {
+    width: 100%;
+    height: auto;
+    border-radius: 0.5rem;
+}
+
+.thank-you-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: var(--sushi-white);
+    font-weight: 600;
+}
+
+.thank-you-message {
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+    color: var(--sushi-gray-light);
+    line-height: 1.5;
+}
+
+.thank-you-close {
+    background: var(--sushi-red);
+    color: white;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.thank-you-close:hover {
+    background: #ff5555;
+    transform: translateY(-2px);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+</style>
 <section class="sushi-section menu-section" style="padding: 6rem 0; background: linear-gradient(135deg,#000,#1a1a1a); color: var(--sushi-white);">
     <div class="container">
         <!-- Header -->
@@ -60,8 +273,8 @@
                                 <button type="button" class="quantity-option" 
                                         data-product="{{ roll.name }}" 
                                         data-quantity="{{ quantity }}"
-                                        data-price="{{ price }}"
-                                        style="padding:0.5rem 0.8rem; border:1px solid rgba(255,255,255,0.3); border-radius:0.5rem; background: rgba(255,255,255,0.05); color: var(--sushi-white); cursor:pointer;">
+                                        data-price="{{ price }}">
+                                      
                                     {% if quantity == 1 %}x1 pieza
                                     {% elseif quantity == 4 %}x4 piezas
                                     {% elseif quantity == 6 %}x6 piezas
@@ -136,10 +349,10 @@
                             {% if combo.availablePrices is not empty %}
                                 {% for quantity, price in combo.availablePrices %}
                                 <button type="button" class="quantity-option" 
-                                        data-product="{{ combo.name }}" 
-                                        data-quantity="{{ quantity }}"
-                                        data-price="{{ price }}"
-                                        style="padding:0.5rem 0.8rem; border:1px solid rgba(255,255,255,0.3); border-radius:0.5rem; background: rgba(255,255,255,0.05); color: var(--sushi-white); cursor:pointer;">
+                                       data-product="{{ combo.name }}" 
+                                       data-quantity="{{ quantity }}"
+                                       data-price="{{ price }}">
+                                       
                                     {{ quantity }} piezas
                                     <span style="margin-left:0.3rem; color: var(--sushi-red);">${{ price }}</span>
                                 </button>
@@ -209,19 +422,18 @@
                             <div class="quantity-options" style="display:flex; gap:0.5rem; flex-wrap:wrap;">
                                 {% if especialidad.availablePrices is not empty %}
                                     {% for quantity, price in especialidad.availablePrices %}
-                                    <button type="button" class="quantity-option" 
-                                            data-product="{{ especialidad.name }}" 
-                                            data-quantity="{{ quantity }}"
-                                            data-price="{{ price }}"
-                                            style="padding:0.5rem 0.8rem; border:1px solid rgba(255,255,255,0.3); border-radius:0.5rem; background: rgba(255,255,255,0.05); color: var(--sushi-white); cursor:pointer;">
-                                        {% if quantity == 1 %}x1 pieza
-                                        {% elseif quantity == 4 %}x4 piezas
-                                        {% elseif quantity == 6 %}x6 piezas
-                                        {% elseif quantity == 8 %}x8 piezas
-                                        {% else %}{{ quantity }} piezas
-                                        {% endif %}
-                                        <span style="margin-left:0.3rem; color: var(--sushi-red);">${{ price }}</span>
-                                    </button>
+                                  <button type="button" class="quantity-option quantity-btn" 
+                                       data-product="{{ especialidad.name }}" 
+                                       data-quantity="{{ quantity }}"
+                                       data-price="{{ price }}">
+                                    {% if quantity == 1 %}x1 pieza
+                                    {% elseif quantity == 4 %}x4 piezas
+                                    {% elseif quantity == 6 %}x6 piezas
+                                    {% elseif quantity == 8 %}x8 piezas
+                                    {% else %}{{ quantity }} piezas
+                                    {% endif %}
+                                    <span style="margin-left:0.3rem; color: var(--sushi-red);">${{ price }}</span>
+                                   </button>
                                     {% endfor %}
                                 {% else %}
                                     <p style="color: var(--sushi-orange); font-size:0.9rem;">Precios no disponibles</p>
@@ -229,7 +441,7 @@
                             </div>
                         </div>
                     <div class="menu-item-footer" style="display:flex; justify-content:space-between; align-items:center;">
-                        <span class="menu-item-badge" style="background: var(--sushi-orange); padding:0.2rem 0.6rem; border-radius:0.5rem; font-size:0.8rem;">Especialidad</span>
+                        <span class="menu-item-badge" style="background: var(--sushi-red); padding:0.2rem 0.6rem; border-radius:0.5rem; font-size:0.8rem;color: white;"">Especialidad</span>
                         {% set firstPrice = especialidad.availablePrices|first %}
                         {% if firstPrice is not null %}
                             {% set firstQuantity = especialidad.availablePrices|keys|first %}
@@ -260,6 +472,64 @@
 // Al inicio del script, crear el carrito vacío
 let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
+// FUNCIÓN MEJORADA: Para mostrar confirmación con contador
+function showCartConfirmation(productName, pieceCount, price, itemCount = 1) {
+    // Eliminar confirmación anterior si existe
+    const existingConfirmation = document.querySelector('.cart-confirmation');
+    if (existingConfirmation) {
+        existingConfirmation.remove();
+    }
+    
+    // Crear nueva confirmación
+    const confirmation = document.createElement('div');
+    confirmation.className = 'cart-confirmation';
+    
+    let message, emoji;
+    
+    if (itemCount === 1) {
+        message = `Agregado: ${productName}`;
+        emoji = "✅";
+    } else if (itemCount === 2) {
+        message = `+1 unidad: ${productName}`;
+        emoji = "🔄";
+    } else {
+        message = `+1 unidad: ${productName}`;
+        emoji = "🚀";
+    }
+    
+    confirmation.innerHTML = `
+        ${emoji} ${message}<br>
+        <small>Total: ${itemCount} ${itemCount > 1 ? 'unidades' : 'unidad'} | ${pieceCount} piezas - $${price}</small>
+    `;
+    
+    document.body.appendChild(confirmation);
+    
+    // Auto-eliminar después de 3 segundos
+    setTimeout(() => {
+        confirmation.style.animation = 'slideIn 0.3s ease reverse';
+        setTimeout(() => confirmation.remove(), 300);
+    }, 3000);
+}
+
+// FUNCIÓN MEJORADA: Para marcar las cantidades en el carrito
+function highlightCartQuantities() {
+    // Remover clase de todos
+    document.querySelectorAll('.quantity-option').forEach(option => {
+        option.classList.remove('in-cart');
+        option.style.setProperty('--cart-count', ''); // Limpiar variable CSS
+    });
+    
+    // Agregar clase a los que están en el carrito
+    cart.forEach(item => {
+        const options = document.querySelectorAll(`.quantity-option[data-product="${item.name}"][data-quantity="${item.pieceCount}"]`);
+        options.forEach(option => {
+            option.classList.add('in-cart');
+            // Agregar la cantidad como variable CSS
+            option.style.setProperty('--cart-count', `"${item.quantity}"`);
+        });
+    });
+}
+
 // Función para actualizar el contador del carrito
 function updateCartCounter() {
     const cartCount = document.getElementById('cart-count');
@@ -269,16 +539,19 @@ function updateCartCounter() {
     }
 }
 
-// Función para agregar al carrito
+// FUNCIÓN MEJORADA: Para agregar al carrito con mejor feedback
 function addToCart(productName, price, quantity) {
-    // Crear un producto - VERSIÓN CORREGIDA
+    // Encontrar el botón clickeado para dar feedback visual
+    const clickedButton = document.querySelector(`.quantity-option.active[data-product="${productName}"][data-quantity="${quantity}"]`);
+    
+    // Crear un producto
     const product = {
         id: Date.now(), // ID único basado en la fecha
         name: productName,
-        price: parseFloat(price), // Precio del paquete
-        quantity: 1, // Siempre 1 "paquete"
-        pieceCount: parseInt(quantity), // Cantidad de piezas en el paquete
-        total: parseFloat(price) // Total igual al precio del paquete
+        price: parseFloat(price), // Precio del pedido
+        quantity: 1, // Siempre 1 "pedido"
+        pieceCount: parseInt(quantity), // Cantidad de piezas en el pedido
+        total: parseFloat(price) // Total igual al precio del pedido
     };
     
     // Verificar si ya existe el mismo producto
@@ -286,23 +559,42 @@ function addToCart(productName, price, quantity) {
         item.name === productName && item.pieceCount === parseInt(quantity)
     );
     
+    let finalQuantity = 1;
+    
     if (existingIndex > -1) {
-        // Si ya existe, aumentar la cantidad de "paquetes"
+        // Si ya existe, aumentar la cantidad de "pedidos"
         cart[existingIndex].quantity += 1;
         cart[existingIndex].total = cart[existingIndex].price * cart[existingIndex].quantity;
+        finalQuantity = cart[existingIndex].quantity;
+        
+        // Feedback visual para agregar más unidades
+        if (clickedButton) {
+            clickedButton.classList.add('adding-more');
+            setTimeout(() => clickedButton.classList.remove('adding-more'), 500);
+        }
     } else {
         // Si no existe, agregar nuevo
         cart.push(product);
+        finalQuantity = 1;
     }
     
     // Guardar en la memoria del navegador
     localStorage.setItem('cart', JSON.stringify(cart));
     
-    // Mostrar confirmación
-    alert(`✅ Agregado: ${productName} (${quantity} piezas) - $${price}`);
+    // MOSTRAR CONFIRMACIÓN MEJORADA CON CONTADOR
+    showCartConfirmation(productName, quantity, price, finalQuantity);
     
     // Actualizar el contador del carrito
     updateCartCounter();
+    
+    // Actualizar los highlights de cantidades
+    highlightCartQuantities();
+    
+    // Feedback visual del botón
+    if (clickedButton) {
+        clickedButton.classList.add('active');
+        setTimeout(() => clickedButton.classList.remove('active'), 300);
+    }
 }
 
 // Mostrar el carrito
@@ -323,7 +615,7 @@ function showCart() {
                 <div>
                     <strong>${item.name}</strong><br>
                     <small style="color: #888;">
-                        ${item.quantity} ${item.quantity > 1 ? 'paquetes' : 'paquete'} 
+                        ${item.quantity} ${item.quantity > 1 ? 'pedidos' : 'pedido'} 
                         ${item.pieceCount ? `de ${item.pieceCount} piezas` : ''}
                     </small>
                 </div>
@@ -359,10 +651,12 @@ function removeFromCart(productId) {
     cart = cart.filter(item => item.id !== productId);
     localStorage.setItem('cart', JSON.stringify(cart));
     updateCartCounter();
-    showCart(); // Refrescar la vista
+    highlightCartQuantities();
+    showCart();
 }
 
 // Función para WhatsApp
+// FUNCIÓN MEJORADA: Para WhatsApp con modal de agradecimiento
 function sendWhatsAppOrder() {
     const cart = JSON.parse(localStorage.getItem('cart')) || [];
     
@@ -372,38 +666,72 @@ function sendWhatsAppOrder() {
     }
     
     // Crear mensaje para WhatsApp
-    let message = "📋 *PEDIDO HUGO SUSHI* 📋\n\n";
+    let message = "*PEDIDO HUGO SUSHI*\n\n";
     
     cart.forEach(item => {
         if (item.pieceCount) {
-            message += `• ${item.quantity} ${item.quantity > 1 ? 'paquetes' : 'paquete'} de ${item.pieceCount} piezas - ${item.name} - $${item.total}\n`;
+            message += `• ${item.quantity} ${item.quantity > 1 ? 'pedidos' : 'pedido'} de ${item.pieceCount} piezas - ${item.name} - $${item.total}\n`;
         } else {
             message += `• ${item.quantity}x ${item.name} - $${item.total}\n`;
         }
     });
     
     const total = cart.reduce((sum, item) => sum + item.total, 0);
-    message += `\n💰 *TOTAL: $${total.toFixed(2)}* 💰\n\n`;
-    message += "📍 *Información de entrega:*\n";
+    message += `\n*TOTAL: $${total.toFixed(2)}*\n\n`;
+    message += "*Información de entrega:*\n";
     message += "Nombre: _______\n";
     message += "Dirección: _______\n";
     message += "Teléfono: _______\n\n";
-    message += "💬 *Observaciones:* ________";
+    message += "*Observaciones:* ________";
     
     // Codificar el mensaje para URL
     const encodedMessage = encodeURIComponent(message);
     
-    // TU NÚMERO DE WHATSAPP - REEMPLAZA ESTE NÚMERO
-    const phoneNumber = "5492901300080"; // Ejemplo: Argentina
+    // TU NÚMERO DE WHATSAPP
+    const phoneNumber = "5492901300080";
     
-    // Abrir WhatsApp
-    window.open(`https://wa.me/5492901300080?text=${encodedMessage}`, '_blank');
+    // MOSTRAR MODAL DE AGRADECIMIENTO PRIMERO
+    showThankYouModal();
+    
+    // Abrir WhatsApp después de un breve delay para que se vea el modal
+    setTimeout(() => {
+        window.open(`https://wa.me/5492901300080?text=${encodedMessage}`, '_blank');
+    }, 1500);
+}
+
+// // FUNCIÓN: Mostrar modal de agradecimiento
+function showThankYouModal() {
+    const modal = document.getElementById('thank-you-modal');
+    if (modal) {
+        // CERRAR EL MODAL DEL CARRITO PRIMERO
+        closeCart();
+        
+        // MOSTRAR MODAL DE AGRADECIMIENTO
+        modal.classList.add('show');
+        
+        // Vaciar el carrito después de enviar el pedido
+        localStorage.removeItem('cart');
+        cart = [];
+        updateCartCounter();
+        highlightCartQuantities();
+    }
+}
+
+// FUNCIÓN: Cerrar modal de agradecimiento
+function closeThankYouModal() {
+    const modal = document.getElementById('thank-you-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
 }
 
 // Eventos cuando carga la página
 document.addEventListener('DOMContentLoaded', function() {
     // Inicializar el contador del carrito
     updateCartCounter();
+
+    // Marcar las cantidades que ya están en el carrito
+    highlightCartQuantities();
 
     // Configurar categorías
     const categoryButtons = document.querySelectorAll('.menu-category-btn');
@@ -419,17 +747,27 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Configurar opciones de cantidad
+    // CONFIGURACIÓN MEJORADA: Opciones de cantidad
     const quantityOptions = document.querySelectorAll('.quantity-option');
     quantityOptions.forEach(option => {
         option.addEventListener('click', function() {
             const card = this.closest('.menu-item');
-            const orderBtn = card.querySelector('.menu-item-order');
-            card.querySelectorAll('.quantity-option').forEach(opt => opt.classList.remove('active'));
+            
+            // Remover clase active de todos los botones de esta card
+            card.querySelectorAll('.quantity-option').forEach(opt => {
+                opt.classList.remove('active');
+            });
+            
+            // Agregar clase active al botón clickeado
             this.classList.add('active');
+            
+            // Actualizar botón de ordenar
+            const orderBtn = card.querySelector('.menu-item-order');
             orderBtn.setAttribute('data-product', this.getAttribute('data-product'));
             orderBtn.setAttribute('data-quantity', this.getAttribute('data-quantity'));
             orderBtn.setAttribute('data-price', this.getAttribute('data-price'));
+            
+            // Actualizar precio display
             const priceDisplay = card.querySelector('.menu-item-price');
             priceDisplay.textContent = `$${this.getAttribute('data-price')}`;
         });
@@ -451,7 +789,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-
 <!-- Modal del Carrito -->
 <div id="cart-modal" style="
     display: none;
@@ -499,5 +836,24 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
     </div>
 </div>
-
+<!-- Modal de Agradecimiento -->
+<div id="thank-you-modal" class="thank-you-modal">
+    <div class="thank-you-content">
+        <div class="thank-you-logo">
+            <img src="{{ asset('images/products/Logo.png') }}" alt="HUGO Sushi">
+        </div>
+        
+        <h2 class="thank-you-title">¡Gracias por tu compra!</h2>
+        
+        <p class="thank-you-message">
+            No olvides completar el mensaje con tus datos,
+            que ya estamos trabajando en tu pedido.<br>
+            En breve nos contactamos para confirmar la entrega.
+        </p>
+        
+        <button class="thank-you-close" onclick="closeThankYouModal()">
+            Cerrar
+        </button>
+    </div>
+</div>
 {% endblock %}

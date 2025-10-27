@@ -1,27 +1,46 @@
 <?php
+// src/Controller/Admin/DashboardController.php
 
 namespace App\Controller\Admin;
 
 use App\Entity\User;
+use App\Entity\Sale;
+use App\Entity\Cost;
 use App\Entity\Product;
 use EasyCorp\Bundle\EasyAdminBundle\Config\Dashboard;
 use EasyCorp\Bundle\EasyAdminBundle\Config\MenuItem;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractDashboardController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Doctrine\ORM\EntityManagerInterface;
 
 class DashboardController extends AbstractDashboardController
 {
+    public function __construct(
+        private EntityManagerInterface $entityManager
+    ) {}
+
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        return $this->render('admin/dashboard.html.twig');
+        // Obtener estadísticas para el dashboard
+        $salesStats = $this->getSalesStats();
+        $costsStats = $this->getCostsStats();
+        $profitStats = $this->getProfitStats();
+
+        return $this->render('admin/dashboard.html.twig', [
+            'salesStats' => $salesStats,
+            'costsStats' => $costsStats,
+            'profitStats' => $profitStats,
+            'recentSales' => $this->getRecentSales(),
+            'recentCosts' => $this->getRecentCosts(),
+        ]);
     }
 
     public function configureDashboard(): Dashboard
     {
         return Dashboard::new()
-            ->setTitle('Hugo Admin')
+            ->setTitle('🍣 Hugo Sushi Admin')
             ->setFaviconPath('favicon.ico')
             ->setTextDirection('ltr')
             ->renderContentMaximized();
@@ -30,6 +49,11 @@ class DashboardController extends AbstractDashboardController
     public function configureMenuItems(): iterable
     {
         yield MenuItem::linkToDashboard('Dashboard', 'fa fa-chart-line');
+        
+        // Sección de Ventas
+        yield MenuItem::section('💰 Gestión de Ventas');
+        yield MenuItem::linkToCrud('Ventas', 'fas fa-cash-register', Sale::class);
+        yield MenuItem::linkToCrud('Costos', 'fas fa-file-invoice-dollar', Cost::class);
         
         // Sección del Menú del Restaurante
         yield MenuItem::section('🍣 Gestión del Menú');
@@ -42,5 +66,85 @@ class DashboardController extends AbstractDashboardController
         // Otros enlaces
         yield MenuItem::linkToUrl('🌐 Ver Sitio Web', 'fas fa-external-link-alt', '/');
         yield MenuItem::linkToLogout('🚪 Salir', 'fas fa-sign-out-alt');
+    }
+
+    private function getSalesStats(): array
+    {
+        $today = new \DateTime('today');
+        $monthStart = new \DateTime('first day of this month');
+
+        $todaySales = $this->entityManager->createQuery(
+            'SELECT SUM(s.totalAmount) FROM App\Entity\Sale s WHERE s.saleDate >= :today'
+        )->setParameter('today', $today)
+         ->getSingleScalarResult() ?? 0;
+
+        $monthSales = $this->entityManager->createQuery(
+            'SELECT SUM(s.totalAmount) FROM App\Entity\Sale s WHERE s.saleDate >= :monthStart'
+        )->setParameter('monthStart', $monthStart)
+         ->getSingleScalarResult() ?? 0;
+
+        $totalSales = $this->entityManager->createQuery(
+            'SELECT COUNT(s.id) FROM App\Entity\Sale s'
+        )->getSingleScalarResult();
+
+        return [
+            'today' => $todaySales,
+            'month' => $monthSales,
+            'total' => $totalSales,
+        ];
+    }
+
+    private function getCostsStats(): array
+    {
+        $monthStart = new \DateTime('first day of this month');
+
+        $monthCosts = $this->entityManager->createQuery(
+            'SELECT SUM(c.amount) FROM App\Entity\Cost c WHERE c.costDate >= :monthStart'
+        )->setParameter('monthStart', $monthStart)
+         ->getSingleScalarResult() ?? 0;
+
+        $totalCosts = $this->entityManager->createQuery(
+            'SELECT SUM(c.amount) FROM App\Entity\Cost c'
+        )->getSingleScalarResult() ?? 0;
+
+        return [
+            'month' => $monthCosts,
+            'total' => $totalCosts,
+        ];
+    }
+
+    private function getProfitStats(): array
+    {
+        $monthStart = new \DateTime('first day of this month');
+
+        $monthSales = $this->getSalesStats()['month'];
+        $monthCosts = $this->getCostsStats()['month'];
+        $monthProfit = $monthSales - $monthCosts;
+
+        $totalSales = $this->getSalesStats()['total'];
+        $totalCosts = $this->getCostsStats()['total'];
+        $totalProfit = $totalSales - $totalCosts;
+
+        return [
+            'month' => $monthProfit,
+            'total' => $totalProfit,
+            'margin' => $monthSales > 0 ? ($monthProfit / $monthSales) * 100 : 0,
+        ];
+    }
+
+    private function getRecentSales(): array
+    {
+        return $this->entityManager->createQuery(
+            'SELECT s FROM App\Entity\Sale s ORDER BY s.saleDate DESC'
+        )->setMaxResults(5)
+         ->getResult();
+    }
+
+    private function getRecentCosts(): array
+    {
+        return $this->entityManager->createQuery(
+            'SELECT c FROM App\Entity\Cost c ORDER BY c.costDate DESC'
+        )->setMaxResults(5)
+         ->getResult();
     }
 }
