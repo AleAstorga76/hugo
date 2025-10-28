@@ -6,7 +6,6 @@ namespace App\Entity;
 use App\Repository\SaleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 
 #[ORM\Entity(repositoryClass: SaleRepository::class)]
 class Sale
@@ -32,7 +31,7 @@ class Sale
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $saleDate = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $notes = null;
 
     public function __construct()
@@ -53,6 +52,10 @@ class Sale
     public function setProduct(?Product $product): static
     {
         $this->product = $product;
+        // Si hay producto y cantidad, actualizar el precio unitario
+        if ($product && $this->quantity) {
+            $this->updatePricing();
+        }
         return $this;
     }
 
@@ -64,7 +67,7 @@ class Sale
     public function setQuantity(int $quantity): static
     {
         $this->quantity = $quantity;
-        $this->calculateTotal();
+        $this->updatePricing();
         return $this;
     }
 
@@ -113,10 +116,29 @@ class Sale
         return $this;
     }
 
+    private function updatePricing(): void
+    {
+        if ($this->product && $this->quantity) {
+            // Obtener el precio para la cantidad específica
+            $price = $this->product->getPriceForQuantity($this->quantity);
+            if ($price !== null) {
+                $this->unitPrice = $price;
+                $this->calculateTotal();
+            }
+        }
+    }
+
     private function calculateTotal(): void
     {
         if ($this->quantity && $this->unitPrice) {
-            $this->totalAmount = bcmul($this->unitPrice, (string)$this->quantity, 2);
+            // Reemplazar bcmul con cálculo simple
+            $total = (float) $this->unitPrice * $this->quantity;
+            $this->totalAmount = number_format($total, 2, '.', '');
         }
+    }
+
+    public function __toString(): string
+    {
+        return $this->product ? $this->product->getName() . ' - ' . $this->saleDate->format('d/m/Y') : 'Nueva Venta';
     }
 }

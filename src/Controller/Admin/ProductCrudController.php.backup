@@ -44,6 +44,7 @@ class ProductCrudController extends AbstractCrudController
                 ->setChoices([
                     '🎯 Roll' => 'roll',
                     '📦 Combo' => 'combo',
+                    '🌟 Especialidad' => 'especialidades',  // ← AGREGAR ESTA LÍNEA
                 ])
                 ->setHelp('Selecciona la categoría del producto'),
             TextField::new('image', 'Imagen')

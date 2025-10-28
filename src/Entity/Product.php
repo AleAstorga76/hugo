@@ -160,4 +160,36 @@ class Product
         
         return $prices;
     }
+    // En tu Product.php actual, agrega este método:
+
+// En tu Product.php
+/**
+ * Obtiene todas las cantidades disponibles con sus precios
+ */
+public function getAvailableQuantities(): array
+{
+    $quantities = [1, 4, 6, 8, 16, 20, 32, 36, 40, 48, 50];
+    $available = [];
+    
+    foreach ($quantities as $qty) {
+        $price = $this->getPriceForQuantity($qty);
+        if ($price !== null) {
+            $available[$qty] = $price;
+        }
+    }
+    
+    return $available;
+}
+
+/**
+ * Obtiene el precio para una cantidad específica
+ */
+public function getPriceForQuantity(int $quantity): ?string
+{
+    $method = 'getPrice' . $quantity;
+    if (method_exists($this, $method)) {
+        return $this->$method();
+    }
+    return null;
+ }  
 }

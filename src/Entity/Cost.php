@@ -94,4 +94,9 @@ class Cost
         $this->notes = $notes;
         return $this;
     }
+
+    public function __toString(): string
+    {
+        return $this->description ?? 'Nuevo Costo';
+    }
 }

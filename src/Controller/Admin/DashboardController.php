@@ -23,17 +23,28 @@ class DashboardController extends AbstractDashboardController
     #[Route('/admin', name: 'admin')]
     public function index(): Response
     {
-        // Obtener estadísticas para el dashboard
-        $salesStats = $this->getSalesStats();
-        $costsStats = $this->getCostsStats();
-        $profitStats = $this->getProfitStats();
+        // Obtener estadísticas para el dashboard (manejar errores temporalmente)
+        try {
+            $salesStats = $this->getSalesStats();
+            $costsStats = $this->getCostsStats();
+            $profitStats = $this->getProfitStats();
+            $recentSales = $this->getRecentSales();
+            $recentCosts = $this->getRecentCosts();
+        } catch (\Exception $e) {
+            // Si hay errores (tablas no creadas), usar valores por defecto
+            $salesStats = ['today' => 0, 'month' => 0, 'total' => 0];
+            $costsStats = ['month' => 0, 'total' => 0];
+            $profitStats = ['month' => 0, 'total' => 0, 'margin' => 0];
+            $recentSales = [];
+            $recentCosts = [];
+        }
 
         return $this->render('admin/dashboard.html.twig', [
             'salesStats' => $salesStats,
             'costsStats' => $costsStats,
             'profitStats' => $profitStats,
-            'recentSales' => $this->getRecentSales(),
-            'recentCosts' => $this->getRecentCosts(),
+            'recentSales' => $recentSales,
+            'recentCosts' => $recentCosts,
         ]);
     }
 

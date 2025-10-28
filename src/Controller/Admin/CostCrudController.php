@@ -7,7 +7,7 @@ use App\Entity\Cost;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\MoneyField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;  // ← Cambiar esto
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -23,8 +23,8 @@ class CostCrudController extends AbstractCrudController
         return [
             TextField::new('description', 'Descripción')
                 ->setRequired(true),
-            MoneyField::new('amount', 'Monto')
-                ->setCurrency('USD')
+            NumberField::new('amount', 'Monto ($)')  // ← Usar NumberField en lugar de MoneyField
+                ->setNumDecimals(2)
                 ->setRequired(true),
             DateTimeField::new('costDate', 'Fecha del Costo')
                 ->setFormat('dd/MM/yyyy HH:mm')
