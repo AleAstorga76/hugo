@@ -7,7 +7,7 @@ use App\Entity\Cost;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;  // ← Cambiar esto
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
 
@@ -23,12 +23,15 @@ class CostCrudController extends AbstractCrudController
         return [
             TextField::new('description', 'Descripción')
                 ->setRequired(true),
-            NumberField::new('amount', 'Monto ($)')  // ← Usar NumberField en lugar de MoneyField
-                ->setNumDecimals(2)
-                ->setRequired(true),
+            
+            IntegerField::new('amount', 'Monto ($)')
+                ->setRequired(true)
+                ->setFormTypeOption('attr', ['min' => 0]),
+            
             DateTimeField::new('costDate', 'Fecha del Costo')
                 ->setFormat('dd/MM/yyyy HH:mm')
                 ->setRequired(true),
+            
             ChoiceField::new('category', 'Categoría')
                 ->setChoices([
                     'Ingredientes' => 'ingredientes',
@@ -39,6 +42,7 @@ class CostCrudController extends AbstractCrudController
                     'Otros' => 'otros',
                 ])
                 ->setRequired(true),
+            
             TextareaField::new('notes', 'Notas')
                 ->hideOnIndex(),
         ];

@@ -14,14 +14,10 @@ class MenuController extends AbstractController
     #[Route('/menu', name: 'app_menu')]
     public function index(EntityManagerInterface $entityManager): Response
     {
-        $rolls = $entityManager->getRepository(Product::class)
-            ->findBy(['category' => 'roll']);
-        
-        $combos = $entityManager->getRepository(Product::class)
-            ->findBy(['category' => 'combo']);
-        
-        $especialidades = $entityManager->getRepository(Product::class)
-            ->findBy(['category' => 'especialidades']);
+        // Traemos los productos por categoría directamente
+        $rolls = $entityManager->getRepository(Product::class)->findBy(['category' => 'rolls']);
+        $combos = $entityManager->getRepository(Product::class)->findBy(['category' => 'combos']);
+        $especialidades = $entityManager->getRepository(Product::class)->findBy(['category' => 'especialidades']);
 
         return $this->render('menu/index.html.twig', [
             'rolls' => $rolls,

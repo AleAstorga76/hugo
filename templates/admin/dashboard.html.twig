@@ -24,21 +24,21 @@
                 <div class="sushi-stat-card revenue">
                     <div class="sushi-stat-icon">💰</div>
                     <div class="sushi-stat-number">${{ salesStats.today|number_format(2) }}</div>
-                    <div class="sushi-stat-label">Ventas Hoy</div>
+                    <div class="sushi-stat-label">Ventas Hoy (Confirmadas)</div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="sushi-stat-card orders">
                     <div class="sushi-stat-icon">📈</div>
                     <div class="sushi-stat-number">${{ salesStats.month|number_format(2) }}</div>
-                    <div class="sushi-stat-label">Ventas del Mes</div>
+                    <div class="sushi-stat-label">Ventas del Mes (Confirmadas)</div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
                 <div class="sushi-stat-card customers">
-                    <div class="sushi-stat-icon">💸</div>
-                    <div class="sushi-stat-number">${{ costsStats.month|number_format(2) }}</div>
-                    <div class="sushi-stat-label">Costos del Mes</div>
+                    <div class="sushi-stat-icon">⏳</div>
+                    <div class="sushi-stat-number">{{ salesStats.pending }}</div>
+                    <div class="sushi-stat-label">Pedidos Pendientes</div>
                 </div>
             </div>
             <div class="col-xl-3 col-md-6 mb-4">
@@ -78,8 +78,10 @@
                                 </div>
                             </div>
                             <div class="sushi-info-item">
-                                <div class="sushi-info-label">Ventas Totales</div>
-                                <div class="sushi-info-value">{{ salesStats.total }}</div>
+                                <div class="sushi-info-label">Pedidos Pendientes</div>
+                                <div class="sushi-info-value {{ salesStats.pending > 0 ? 'text-warning' : 'text-success' }}">
+                                    {{ salesStats.pending }}
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -92,13 +94,24 @@
                     <h4 class="mb-3 sushi-text-gradient">🛒 Ventas Recientes</h4>
                     {% for sale in recentSales %}
                     <div class="sushi-activity-item">
-                        <div class="sushi-activity-icon">💰</div>
+                        <div class="sushi-activity-icon">
+                            {% if sale.status == 'pending' %}⏳
+                            {% elseif sale.status == 'confirmed' %}✅
+                            {% elseif sale.status == 'cancelled' %}❌
+                            {% else %}💰{% endif %}
+                        </div>
                         <div class="sushi-activity-content">
                             <div class="sushi-activity-title">
                                 {{ sale.product ? sale.product.name : 'Producto' }} x{{ sale.quantity }}
+                                {% if sale.status == 'pending' %}
+                                    <span class="sushi-badge" style="background: #ffc107; color: #000;">Pendiente</span>
+                                {% elseif sale.status == 'confirmed' %}
+                                    <span class="sushi-badge" style="background: #28a745;">Confirmado</span>
+                                {% endif %}
                             </div>
                             <div class="sushi-activity-time">
                                 ${{ sale.totalAmount }} • {{ sale.saleDate|date('d/m H:i') }}
+                                {% if sale.customerName %}<br><small>Cliente: {{ sale.customerName }}</small>{% endif %}
                             </div>
                         </div>
                     </div>

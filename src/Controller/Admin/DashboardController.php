@@ -30,13 +30,15 @@ class DashboardController extends AbstractDashboardController
             $profitStats = $this->getProfitStats();
             $recentSales = $this->getRecentSales();
             $recentCosts = $this->getRecentCosts();
+            $pendingOrders = $this->getPendingOrdersCount();
         } catch (\Exception $e) {
             // Si hay errores (tablas no creadas), usar valores por defecto
-            $salesStats = ['today' => 0, 'month' => 0, 'total' => 0];
+            $salesStats = ['today' => 0, 'month' => 0, 'total' => 0, 'pending' => 0];
             $costsStats = ['month' => 0, 'total' => 0];
             $profitStats = ['month' => 0, 'total' => 0, 'margin' => 0];
             $recentSales = [];
             $recentCosts = [];
+            $pendingOrders = 0;
         }
 
         return $this->render('admin/dashboard.html.twig', [
@@ -45,6 +47,7 @@ class DashboardController extends AbstractDashboardController
             'profitStats' => $profitStats,
             'recentSales' => $recentSales,
             'recentCosts' => $recentCosts,
+            'pendingOrders' => $pendingOrders,
         ]);
     }
 
@@ -84,24 +87,38 @@ class DashboardController extends AbstractDashboardController
         $today = new \DateTime('today');
         $monthStart = new \DateTime('first day of this month');
 
+        // SOLO ventas CONFIRMADAS para las estadísticas
         $todaySales = $this->entityManager->createQuery(
-            'SELECT SUM(s.totalAmount) FROM App\Entity\Sale s WHERE s.saleDate >= :today'
-        )->setParameter('today', $today)
-         ->getSingleScalarResult() ?? 0;
+            'SELECT SUM(s.totalAmount) FROM App\Entity\Sale s 
+             WHERE s.saleDate >= :today AND s.status = :status'
+        )->setParameters([
+            'today' => $today,
+            'status' => Sale::STATUS_CONFIRMED
+        ])->getSingleScalarResult() ?? 0;
 
         $monthSales = $this->entityManager->createQuery(
-            'SELECT SUM(s.totalAmount) FROM App\Entity\Sale s WHERE s.saleDate >= :monthStart'
-        )->setParameter('monthStart', $monthStart)
-         ->getSingleScalarResult() ?? 0;
+            'SELECT SUM(s.totalAmount) FROM App\Entity\Sale s 
+             WHERE s.saleDate >= :monthStart AND s.status = :status'
+        )->setParameters([
+            'monthStart' => $monthStart,
+            'status' => Sale::STATUS_CONFIRMED
+        ])->getSingleScalarResult() ?? 0;
 
         $totalSales = $this->entityManager->createQuery(
-            'SELECT COUNT(s.id) FROM App\Entity\Sale s'
-        )->getSingleScalarResult();
+            'SELECT COUNT(s.id) FROM App\Entity\Sale s WHERE s.status = :status'
+        )->setParameter('status', Sale::STATUS_CONFIRMED)
+         ->getSingleScalarResult();
+
+        $pendingOrders = $this->entityManager->createQuery(
+            'SELECT COUNT(s.id) FROM App\Entity\Sale s WHERE s.status = :status'
+        )->setParameter('status', Sale::STATUS_PENDING)
+         ->getSingleScalarResult();
 
         return [
             'today' => $todaySales,
             'month' => $monthSales,
             'total' => $totalSales,
+            'pending' => $pendingOrders,
         ];
     }
 
@@ -126,8 +143,6 @@ class DashboardController extends AbstractDashboardController
 
     private function getProfitStats(): array
     {
-        $monthStart = new \DateTime('first day of this month');
-
         $monthSales = $this->getSalesStats()['month'];
         $monthCosts = $this->getCostsStats()['month'];
         $monthProfit = $monthSales - $monthCosts;
@@ -145,6 +160,7 @@ class DashboardController extends AbstractDashboardController
 
     private function getRecentSales(): array
     {
+        // Mostrar TODAS las ventas recientes (incluyendo pendientes) para ver los nuevos pedidos
         return $this->entityManager->createQuery(
             'SELECT s FROM App\Entity\Sale s ORDER BY s.saleDate DESC'
         )->setMaxResults(5)
@@ -157,5 +173,13 @@ class DashboardController extends AbstractDashboardController
             'SELECT c FROM App\Entity\Cost c ORDER BY c.costDate DESC'
         )->setMaxResults(5)
          ->getResult();
+    }
+
+    private function getPendingOrdersCount(): int
+    {
+        return $this->entityManager->createQuery(
+            'SELECT COUNT(s.id) FROM App\Entity\Sale s WHERE s.status = :status'
+        )->setParameter('status', Sale::STATUS_PENDING)
+         ->getSingleScalarResult();
     }
 }

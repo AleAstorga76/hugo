@@ -7,9 +7,11 @@ use App\Entity\Sale;
 use EasyCorp\Bundle\EasyAdminBundle\Controller\AbstractCrudController;
 use EasyCorp\Bundle\EasyAdminBundle\Field\AssociationField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\ChoiceField;
-use EasyCorp\Bundle\EasyAdminBundle\Field\NumberField;  // ← Cambiar esto también
+use EasyCorp\Bundle\EasyAdminBundle\Field\IntegerField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\DateTimeField;
 use EasyCorp\Bundle\EasyAdminBundle\Field\TextareaField;
+use EasyCorp\Bundle\EasyAdminBundle\Field\TextField;
+use EasyCorp\Bundle\EasyAdminBundle\Config\Crud;
 
 class SaleCrudController extends AbstractCrudController
 {
@@ -18,11 +20,22 @@ class SaleCrudController extends AbstractCrudController
         return Sale::class;
     }
 
+    public function configureCrud(Crud $crud): Crud
+    {
+        return $crud
+            ->setEntityLabelInSingular('Venta')
+            ->setEntityLabelInPlural('Ventas')
+            ->setPageTitle('index', 'Gestión de Ventas')
+            ->setPageTitle('new', 'Nueva Venta')
+            ->setPageTitle('edit', 'Editar Venta');
+    }
+
     public function configureFields(string $pageName): iterable
     {
         return [
             AssociationField::new('product', 'Producto')
                 ->setRequired(true),
+            
             ChoiceField::new('quantity', 'Cantidad de Piezas')
                 ->setChoices([
                     '1 pieza' => 1,
@@ -38,18 +51,42 @@ class SaleCrudController extends AbstractCrudController
                     '50 piezas' => 50,
                 ])
                 ->setRequired(true),
-            NumberField::new('unitPrice', 'Precio Unitario ($)')  // ← NumberField aquí también
-                ->setNumDecimals(2)
+            
+            IntegerField::new('unitPrice', 'Precio Unitario ($)')
                 ->setRequired(true)
+                ->setFormTypeOption('attr', ['min' => 0])
                 ->hideOnIndex(),
-            NumberField::new('totalAmount', 'Total ($)')  // ← Y aquí
-                ->setNumDecimals(2)
+
+            IntegerField::new('totalAmount', 'Total ($)')
                 ->setRequired(true)
+                ->setFormTypeOption('attr', ['min' => 0])
                 ->onlyOnIndex(),
+            
             DateTimeField::new('saleDate', 'Fecha de Venta')
                 ->setFormat('dd/MM/yyyy HH:mm')
                 ->setRequired(true),
-            TextareaField::new('notes', 'Notas')
+            
+            ChoiceField::new('status', 'Estado')
+                ->setChoices([
+                    '⏳ Pendiente' => Sale::STATUS_PENDING,
+                    '✅ Confirmado' => Sale::STATUS_CONFIRMED,
+                    '❌ Cancelado' => Sale::STATUS_CANCELLED,
+                ])
+                ->renderAsBadges(),
+            
+            TextField::new('customerName', 'Cliente')
+                ->hideOnIndex(),
+            
+            TextField::new('customerPhone', 'Teléfono')
+                ->hideOnIndex(),
+            
+            TextareaField::new('customerAddress', 'Dirección')
+                ->hideOnIndex(),
+            
+            TextareaField::new('observations', 'Observaciones')
+                ->hideOnIndex(),
+            
+            TextareaField::new('notes', 'Notas Internas')
                 ->hideOnIndex(),
         ];
     }

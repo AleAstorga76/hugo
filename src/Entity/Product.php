@@ -26,41 +26,40 @@ class Product
     #[ORM\Column(length: 50)]
     private ?string $category = null;
 
-    // SOLO campos individuales de precios - ELIMINA cualquier campo 'price' o 'prices'
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price1 = null;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price4 = null;
+    // Campos de precios - CAMBIADOS A INTEGER
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price1 = null;
     
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price6 = null;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price4 = null;
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price6 = null;
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price8 = null;
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price16 = null;
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price20 = null;
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price32 = null;
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price36 = null;
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price40 = null;
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price48 = null;
+    
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private ?int $price50 = null;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price8 = null;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price16 = null;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price20 = null;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price32 = null;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price36 = null;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price40 = null;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price48 = null;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private ?string $price50 = null;
-
-    // Columna stock booleana
     #[ORM\Column(type: 'boolean', options: ['default' => true])]
     private ?bool $stock = true;
 
@@ -73,7 +72,8 @@ class Product
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
-    // Getters y Setters para TODOS los campos...
+    // ---------------- Getters y Setters ----------------
+
     public function getId(): ?int { return $this->id; }
     public function getName(): ?string { return $this->name; }
     public function setName(string $name): self { $this->name = $name; return $this; }
@@ -82,60 +82,53 @@ class Product
     public function getCategory(): ?string { return $this->category; }
     public function setCategory(string $category): self { $this->category = $category; return $this; }
 
-    // Getters y Setters para precios individuales
-    public function getPrice1(): ?string { return $this->price1; }
-    public function setPrice1(?string $price1): self { $this->price1 = $price1; return $this; }
+    // Getters y Setters precios - CAMBIADOS A INTEGER
+    public function getPrice1(): ?int { return $this->price1; }
+    public function setPrice1(?int $price1): self { $this->price1 = $price1; return $this; }
     
-    public function getPrice4(): ?string { return $this->price4; }
-    public function setPrice4(?string $price4): self { $this->price4 = $price4; return $this; }
+    public function getPrice4(): ?int { return $this->price4; }
+    public function setPrice4(?int $price4): self { $this->price4 = $price4; return $this; }
     
-    public function getPrice6(): ?string { return $this->price6; }
-    public function setPrice6(?string $price6): self { $this->price6 = $price6; return $this; }
+    public function getPrice6(): ?int { return $this->price6; }
+    public function setPrice6(?int $price6): self { $this->price6 = $price6; return $this; }
+    
+    public function getPrice8(): ?int { return $this->price8; }
+    public function setPrice8(?int $price8): self { $this->price8 = $price8; return $this; }
+    
+    public function getPrice16(): ?int { return $this->price16; }
+    public function setPrice16(?int $price16): self { $this->price16 = $price16; return $this; }
+    
+    public function getPrice20(): ?int { return $this->price20; }
+    public function setPrice20(?int $price20): self { $this->price20 = $price20; return $this; }
+    
+    public function getPrice32(): ?int { return $this->price32; }
+    public function setPrice32(?int $price32): self { $this->price32 = $price32; return $this; }
+    
+    public function getPrice36(): ?int { return $this->price36; }
+    public function setPrice36(?int $price36): self { $this->price36 = $price36; return $this; }
+    
+    public function getPrice40(): ?int { return $this->price40; }
+    public function setPrice40(?int $price40): self { $this->price40 = $price40; return $this; }
+    
+    public function getPrice48(): ?int { return $this->price48; }
+    public function setPrice48(?int $price48): self { $this->price48 = $price48; return $this; }
+    
+    public function getPrice50(): ?int { return $this->price50; }
+    public function setPrice50(?int $price50): self { $this->price50 = $price50; return $this; }
 
-    public function getPrice8(): ?string { return $this->price8; }
-    public function setPrice8(?string $price8): self { $this->price8 = $price8; return $this; }
-    
-    public function getPrice16(): ?string { return $this->price16; }
-    public function setPrice16(?string $price16): self { $this->price16 = $price16; return $this; }
-    
-    public function getPrice20(): ?string { return $this->price20; }
-    public function setPrice20(?string $price20): self { $this->price20 = $price20; return $this; }
-    
-    public function getPrice32(): ?string { return $this->price32; }
-    public function setPrice32(?string $price32): self { $this->price32 = $price32; return $this; }
-    
-    public function getPrice36(): ?string { return $this->price36; }
-    public function setPrice36(?string $price36): self { $this->price36 = $price36; return $this; }
-    
-    public function getPrice40(): ?string { return $this->price40; }
-    public function setPrice40(?string $price40): self { $this->price40 = $price40; return $this; }
-    
-    public function getPrice48(): ?string { return $this->price48; }
-    public function setPrice48(?string $price48): self { $this->price48 = $price48; return $this; }
-    
-    public function getPrice50(): ?string { return $this->price50; }
-    public function setPrice50(?string $price50): self { $this->price50 = $price50; return $this; }
-
-    // Getters y Setters para stock
     public function getStock(): ?bool { return $this->stock; }
     public function setStock(bool $stock): self { $this->stock = $stock; return $this; }
-    
-    // Método helper para stock como texto
-    public function getStockText(): string
-    {
-        return $this->stock ? 'Sí' : 'No';
-    }
+    public function getStockText(): string { return $this->stock ? 'Sí' : 'No'; }
 
     public function getImage(): ?string { return $this->image; }
     public function setImage(?string $image): self { $this->image = $image; return $this; }
-    
+
     public function setImageFile(?File $imageFile = null): void {
         $this->imageFile = $imageFile;
         if (null !== $imageFile) {
             $this->updatedAt = new \DateTimeImmutable();
         }
     }
-    
     public function getImageFile(): ?File { return $this->imageFile; }
     public function getUpdatedAt(): ?\DateTimeImmutable { return $this->updatedAt; }
     public function setUpdatedAt(?\DateTimeImmutable $updatedAt): self { $this->updatedAt = $updatedAt; return $this; }
@@ -144,52 +137,61 @@ class Product
         return $this->name ?? 'Nuevo Producto';
     }
 
-    // Método helper para obtener precios disponibles
+    // ---------------- Métodos helper ----------------
+
+    // Devuelve todos los precios disponibles
     public function getAvailablePrices(): array
     {
-        $prices = [];
         $quantities = [1, 4, 6, 8, 16, 20, 32, 36, 40, 48, 50];
-        
-        foreach ($quantities as $quantity) {
-            $method = 'getPrice' . $quantity;
-            $price = $this->$method();
+        $available = [];
+        foreach ($quantities as $qty) {
+            $price = $this->getPriceForQuantity($qty);
             if ($price !== null) {
-                $prices[$quantity] = $price;
+                $available[$qty] = $price;
             }
         }
-        
-        return $prices;
+        return $available;
     }
-    // En tu Product.php actual, agrega este método:
 
-// En tu Product.php
-/**
- * Obtiene todas las cantidades disponibles con sus precios
- */
-public function getAvailableQuantities(): array
-{
-    $quantities = [1, 4, 6, 8, 16, 20, 32, 36, 40, 48, 50];
-    $available = [];
-    
-    foreach ($quantities as $qty) {
-        $price = $this->getPriceForQuantity($qty);
-        if ($price !== null) {
-            $available[$qty] = $price;
+    // Devuelve precio para cantidad específica
+    public function getPriceForQuantity(int $quantity): ?int
+    {
+        $method = 'getPrice' . $quantity;
+        return method_exists($this, $method) ? $this->$method() : null;
+    }
+
+    // ---------------- Nuevo: setter para precios formateados ----------------
+    public function setAvailablePrices(array $prices): self
+    {
+        foreach ($prices as $qty => $price) {
+            $method = 'setPrice' . $qty;
+            if (method_exists($this, $method)) {
+                $this->$method($price);
+            }
         }
+        return $this;
     }
-    
-    return $available;
-}
 
-/**
- * Obtiene el precio para una cantidad específica
- */
-public function getPriceForQuantity(int $quantity): ?string
-{
-    $method = 'getPrice' . $quantity;
-    if (method_exists($this, $method)) {
-        return $this->$method();
+    // Métodos de formato - SIMPLIFICADOS
+    public function getFormattedPriceForQuantity(int $quantity): ?string
+    {
+        $price = $this->getPriceForQuantity($quantity);
+        if ($price === null) {
+            return null;
+        }
+        
+        // Directo a formato argentino sin decimales
+        return number_format($price, 0, ',', '.');
     }
-    return null;
- }  
+
+    public function getMinFormattedPrice(): ?string
+    {
+        $prices = $this->getAvailablePrices();
+        if (empty($prices)) {
+            return null;
+        }
+        
+        $minPrice = min($prices);
+        return number_format($minPrice, 0, ',', '.');
+    }
 }
